@@ -17,6 +17,27 @@
   }
   
   body {
-    @apply bg-orange-50 text-gray-900 min-h-screen;
+    @apply bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 text-gray-900 min-h-screen;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
+  }
+  
+  .gradient-border {
+    @apply relative;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #fb923c, #f59e0b) border-box;
+    border: 2px solid transparent;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent;
   }
 }

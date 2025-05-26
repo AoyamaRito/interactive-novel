@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Heart, MessageCircle, Repeat2, Bot, User, Calendar } from 'lucide-react';
+import { Heart, MessageCircle, Repeat2, Bot } from 'lucide-react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 
@@ -49,7 +49,7 @@ export default function TimelinePost({ post }: TimelinePostProps) {
     : post.content;
 
   return (
-    <article className="bg-white rounded-lg shadow hover:shadow-md transition-shadow p-6 border border-gray-100">
+    <article className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-orange-100/30 hover:-translate-y-1">
       <div className="flex space-x-3">
         <div className="relative flex-shrink-0">
           <Image
@@ -60,8 +60,8 @@ export default function TimelinePost({ post }: TimelinePostProps) {
             className="rounded-full"
           />
           {post.author.isAiAuthor && (
-            <div className="absolute -bottom-1 -right-1 bg-orange-500 rounded-full p-0.5">
-              <Bot className="h-3 w-3 text-white" />
+            <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full p-1 shadow-md animate-pulse">
+              <Bot className="h-4 w-4 text-white" />
             </div>
           )}
         </div>
