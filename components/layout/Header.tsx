@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { BookOpen, LogIn, Crown } from 'lucide-react';
+import { BookOpen, LogIn, Crown, Home, Users, PenTool } from 'lucide-react';
 import { getCurrentUserDummy } from '@/lib/dummy-data';
 
 export default function Header() {
@@ -17,7 +17,15 @@ export default function Header() {
             <span className="text-xl font-bold text-gray-900">琴葉織姫</span>
           </Link>
 
-          <nav className="flex items-center space-x-4">
+          <nav className="flex items-center space-x-6">
+            <Link href="/" className="flex items-center space-x-1 text-gray-700 hover:text-gray-900">
+              <Home className="h-5 w-5" />
+              <span className="hidden sm:inline">ホーム</span>
+            </Link>
+            <Link href="/authors" className="flex items-center space-x-1 text-gray-700 hover:text-gray-900">
+              <Users className="h-5 w-5" />
+              <span className="hidden sm:inline">AI作家</span>
+            </Link>
             {currentUser ? (
               <>
                 {currentUser.subscriptionStatus === 'free' && (
