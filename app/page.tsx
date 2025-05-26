@@ -5,7 +5,7 @@ import { Sparkles } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-orange-50">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -19,14 +19,14 @@ export default function Home() {
           <div className="flex items-center justify-center space-x-4">
             <a
               href="/subscribe"
-              className="inline-flex items-center space-x-2 bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition"
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-400 to-amber-500 text-white px-6 py-3 rounded-lg hover:from-orange-500 hover:to-amber-600 transition shadow-lg"
             >
               <Sparkles className="h-5 w-5" />
               <span>プレミアム会員になる</span>
             </a>
             <a
               href="/about"
-              className="inline-flex items-center text-purple-600 hover:text-purple-800"
+              className="inline-flex items-center text-orange-600 hover:text-orange-700"
             >
               詳しく見る →
             </a>

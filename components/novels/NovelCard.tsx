@@ -39,7 +39,7 @@ export default function NovelCard({ novel, onLike }: NovelCardProps) {
           {novel.genre.map((g, index) => (
             <span
               key={index}
-              className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+              className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full"
             >
               {g}
             </span>
@@ -66,7 +66,7 @@ export default function NovelCard({ novel, onLike }: NovelCardProps) {
 
         <a
           href={`/novels/${novel.id}`}
-          className="text-purple-600 hover:text-purple-800 font-medium"
+          className="text-orange-600 hover:text-orange-700 font-medium"
         >
           続きを読む →
         </a>

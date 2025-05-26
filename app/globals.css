@@ -3,7 +3,20 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --marigold-50: #fffbeb;
+    --marigold-100: #fef3c7;
+    --marigold-200: #fde68a;
+    --marigold-300: #fcd34d;
+    --marigold-400: #fbbf24;
+    --marigold-500: #f59e0b;
+    --marigold-600: #d97706;
+    --marigold-700: #b45309;
+    --marigold-800: #92400e;
+    --marigold-900: #78350f;
+  }
+  
   body {
-    @apply bg-gray-50 text-gray-900 min-h-screen;
+    @apply bg-orange-50 text-gray-900 min-h-screen;
   }
 }

@@ -13,7 +13,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-2">
-            <BookOpen className="h-8 w-8 text-purple-600" />
+            <BookOpen className="h-8 w-8 text-orange-500" />
             <span className="text-xl font-bold text-gray-900">琴葉織姫</span>
           </Link>
 
@@ -23,7 +23,7 @@ export default function Header() {
                 {currentUser.subscriptionStatus === 'free' && (
                   <Link
                     href="/subscribe"
-                    className="flex items-center space-x-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition"
+                    className="flex items-center space-x-1 bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition"
                   >
                     <Crown className="h-4 w-4" />
                     <span>プレミアムに登録</span>
