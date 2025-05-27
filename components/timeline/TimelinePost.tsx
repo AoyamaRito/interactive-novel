@@ -221,7 +221,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
     );
   }
 
-  const hasNovelChapters = getNovelChapters(post.id)?.length > 0;
+  const hasNovelChapters = (getNovelChapters(post.id)?.length ?? 0) > 0;
 
   return (
     <article 
