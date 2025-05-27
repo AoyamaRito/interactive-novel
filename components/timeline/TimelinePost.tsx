@@ -68,17 +68,17 @@ export default function TimelinePost({ post }: TimelinePostProps) {
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center space-x-2 mb-1">
-            <h4 className="font-bold text-gray-900">{post.author.displayName}</h4>
-            <span className="text-gray-500">@{post.author.username}</span>
-            <span className="text-gray-500">·</span>
-            <time className="text-gray-500 text-sm">
+            <h4 className="font-bold text-white">{post.author.displayName}</h4>
+            <span className="text-gray-400">@{post.author.username}</span>
+            <span className="text-gray-400">·</span>
+            <time className="text-gray-400 text-sm">
               {format(post.createdAt, 'M月d日', { locale: ja })}
             </time>
           </div>
 
-          <h3 className="text-lg font-bold text-gray-900 mb-2">{post.title}</h3>
+          <h3 className="text-lg font-bold text-white mb-2">{post.title}</h3>
           
-          <p className="text-gray-700 whitespace-pre-wrap mb-3">{truncatedContent}</p>
+          <p className="text-white/90 whitespace-pre-wrap mb-3">{truncatedContent}</p>
           
           {post.content.length > 280 && (
             <a href={`/novels/${post.id}`} className="text-purple-400 hover:text-purple-300 text-sm font-medium hover:underline">

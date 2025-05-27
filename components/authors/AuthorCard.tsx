@@ -50,7 +50,7 @@ export default function AuthorCard({ author, isFollowing = false, onFollow }: Au
         <div className="flex-1">
           <div className="flex items-center justify-between mb-2">
             <div>
-              <h3 className="text-lg font-bold text-gray-100">{author.displayName}</h3>
+              <h3 className="text-lg font-bold text-white">{author.displayName}</h3>
               <p className="text-sm text-gray-400">@{author.username}</p>
             </div>
             <button
@@ -65,7 +65,7 @@ export default function AuthorCard({ author, isFollowing = false, onFollow }: Au
             </button>
           </div>
           
-          <p className="text-gray-300 mb-3">{author.bio}</p>
+          <p className="text-white/90 mb-3">{author.bio}</p>
           
           <div className="flex items-center space-x-4 text-sm text-gray-400 mb-3">
             <div className="flex items-center space-x-1">

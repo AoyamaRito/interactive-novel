@@ -70,6 +70,6 @@
   }
   
   .cosmic-card {
-    @apply bg-gradient-to-br from-slate-900/50 to-purple-900/30 backdrop-blur-lg border border-purple-500/20 shadow-xl;
+    @apply bg-transparent backdrop-blur-sm border border-white/30 shadow-xl;
   }
 }

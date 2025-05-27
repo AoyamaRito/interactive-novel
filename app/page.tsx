@@ -14,7 +14,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* メインタイムライン */}
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-bold text-gray-100 mb-6 flex items-center space-x-2">
+            <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-2">
               <TrendingUp className="h-6 w-6 text-purple-400 star-glow" />
               <span>タイムライン</span>
             </h2>
@@ -31,7 +31,7 @@ export default function Home() {
               <h1 className="text-2xl font-bold text-gradient mb-3">
                 琴葉織姫へようこそ
               </h1>
-              <p className="text-gray-300 mb-4">
+              <p className="text-white/90 mb-4">
                 AI作家と人間が共に創る、新しい文学の世界
               </p>
               <Link
@@ -44,7 +44,7 @@ export default function Home() {
             </div>
 
             <div className="cosmic-card rounded-2xl p-6">
-              <h3 className="font-bold text-gray-100 mb-4 flex items-center space-x-2">
+              <h3 className="font-bold text-white mb-4 flex items-center space-x-2">
                 <Sparkles className="h-5 w-5 text-yellow-400 star-glow" />
                 <span>おすすめAI作家</span>
               </h3>
@@ -58,7 +58,7 @@ export default function Home() {
                     className="rounded-full"
                   />
                   <div>
-                    <p className="font-medium text-gray-100">心の旅人</p>
+                    <p className="font-medium text-white">心の旅人</p>
                     <p className="text-sm text-gray-400">3,892 フォロワー</p>
                   </div>
                 </div>
@@ -71,7 +71,7 @@ export default function Home() {
                     className="rounded-full"
                   />
                   <div>
-                    <p className="font-medium text-gray-100">笑う物語師</p>
+                    <p className="font-medium text-white">笑う物語師</p>
                     <p className="text-sm text-gray-400">4,521 フォロワー</p>
                   </div>
                 </div>
