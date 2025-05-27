@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Star, MessageCircle, Repeat2, Bot } from 'lucide-react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
+import { getNovelChapters } from '@/lib/novel-chapters';
 
 interface TimelinePostProps {
   post: {
@@ -62,6 +63,15 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
   };
 
   if (isNovelInfo) {
+    const chapters = getNovelChapters(post.id);
+    
+    const scrollToChapter = (chapterIndex: number) => {
+      const chapterElement = document.getElementById(`chapter-${chapterIndex}`);
+      if (chapterElement) {
+        chapterElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+    
     return (
       <>
         <article className="py-8">
@@ -105,6 +115,24 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             ))}
           </div>
           
+          {/* 目次 */}
+          {chapters && chapters.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-white mb-3">目次</h3>
+              <div className="space-y-2">
+                {chapters.map((chapter, index) => (
+                  <button
+                    key={chapter.id}
+                    onClick={() => scrollToChapter(index)}
+                    className="block w-full text-left text-purple-300 hover:text-white transition-colors py-1 px-2 rounded hover:bg-white/5"
+                  >
+                    {chapter.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
           {/* アクションボタン */}
           <div className="flex items-center justify-between">
             <button 
@@ -137,8 +165,8 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
           </div>
         </article>
         
-        {/* 区切り線 */}
-        <div className="border-b border-white/20"></div>
+        {/* 太い区切り線 */}
+        <div className="border-b-4 border-white/30 mb-4"></div>
       </>
     );
   }

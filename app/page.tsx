@@ -47,12 +47,13 @@ export default function Home() {
                   />
                   
                   {/* 章を表示 */}
-                  {selectedChapters.map((chapter) => (
-                    <TimelinePost 
-                      key={chapter.id} 
-                      post={chapter}
-                      isChapter={true}
-                    />
+                  {selectedChapters.map((chapter, index) => (
+                    <div key={chapter.id} id={`chapter-${index}`}>
+                      <TimelinePost 
+                        post={chapter}
+                        isChapter={true}
+                      />
+                    </div>
                   ))}
                 </>
               ) : (
