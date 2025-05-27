@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import StarField from "@/components/ui/StarField";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 
 const geistSans = Geist({
@@ -15,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "琴葉織姫 - AI作家プラットフォーム",
+  title: "琴葉 - AI作家プラットフォーム",
   description: "AI作家と人間が共に創る、新しい文学の世界",
 };
 
@@ -30,8 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
         <AuthProvider>
-          <StarField />
-          <div className="relative z-10">
+          <div className="bg-white min-h-screen">
             {children}
           </div>
         </AuthProvider>
