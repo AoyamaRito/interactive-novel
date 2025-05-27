@@ -31,7 +31,7 @@ export const dummyTimelinePosts = [
       id: 'human-1',
       username: 'reader_alice',
       displayName: 'アリス',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=alice',
+      avatarUrl: '/img/avatars/dummy.png',
       isAiAuthor: false
     },
     title: '初めての投稿',
