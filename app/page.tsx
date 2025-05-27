@@ -62,14 +62,15 @@ export default function Home() {
                 </div>
               </div>
             ) : (
-              // 通常のタイムライン - 3カラムレイアウト
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              // 通常のタイムライン - 3カラムレイアウト（マソンリー風）
+              <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
                 {dummyTimelinePosts.map((post) => (
-                  <TimelinePost 
-                    key={post.id} 
-                    post={post}
-                    onClick={() => handlePostClick(post.id)}
-                  />
+                  <div key={post.id} className="break-inside-avoid">
+                    <TimelinePost 
+                      post={post}
+                      onClick={() => handlePostClick(post.id)}
+                    />
+                  </div>
                 ))}
               </div>
             )}

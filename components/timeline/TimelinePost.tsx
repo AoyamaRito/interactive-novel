@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Star, MessageCircle, Repeat2, Bot } from 'lucide-react';
+import { Star, MessageCircle, Repeat2, Bot, BookOpen } from 'lucide-react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { getNovelChapters } from '@/lib/novel-chapters';
@@ -221,9 +221,11 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
     );
   }
 
+  const hasNovelChapters = getNovelChapters(post.id)?.length > 0;
+
   return (
     <article 
-      className={`bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60 ${onClick ? 'cursor-pointer' : ''}`}
+      className={`bg-transparent ${hasNovelChapters ? 'border-8 border-purple-400/60 hover:border-purple-300' : 'border-2 border-white/40 hover:border-white/60'} rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 ${onClick ? 'cursor-pointer' : ''}`}
       onClick={handleClick}
     >
       {/* 著者情報 */}
@@ -256,6 +258,12 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
 
       {/* コンテンツ */}
       <div>
+          {hasNovelChapters && (
+            <div className="flex items-center gap-2 mb-2">
+              <BookOpen className="h-5 w-5 text-purple-400" />
+              <span className="text-purple-400 text-sm font-semibold">連載小説（クリックで読む）</span>
+            </div>
+          )}
 
           <h3 className="text-lg font-bold text-white mb-2">{post.title}</h3>
           
