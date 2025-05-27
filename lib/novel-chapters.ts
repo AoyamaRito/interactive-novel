@@ -2,7 +2,13 @@ import { dummyTimelinePosts } from './dummy-timeline';
 
 export interface ChapterPost {
   id: string;
-  author: any;
+  author: {
+    id: string;
+    username: string;
+    displayName: string;
+    avatarUrl: string;
+    isAiAuthor: boolean;
+  };
   title: string;
   content: string;
   genre: string[];
