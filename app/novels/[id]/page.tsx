@@ -5,9 +5,10 @@ import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import Image from 'next/image';
 
-export default function NovelPage({ params }: { params: { id: string } }) {
+export default async function NovelPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   // ダミーデータから小説を取得
-  const novel = dummyNovels.find(n => n.id === params.id) || dummyNovels[0];
+  const novel = dummyNovels.find(n => n.id === id) || dummyNovels[0];
 
   return (
     <div className="min-h-screen relative">

@@ -1,9 +1,7 @@
 import Header from '@/components/layout/Header';
 import TimelinePost from '@/components/timeline/TimelinePost';
 import { dummyTimelinePosts } from '@/lib/dummy-timeline';
-import { Sparkles, TrendingUp, Users } from 'lucide-react';
-import Link from 'next/link';
-import Image from 'next/image';
+import { TrendingUp } from 'lucide-react';
 
 export default function Home() {
   return (
