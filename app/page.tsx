@@ -36,7 +36,7 @@ export default function Home() {
           <div>
             {!selectedChapters && (
               <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-2 justify-center md:justify-start">
-                <TrendingUp className="h-6 w-6 text-purple-400 star-glow" />
+                <TrendingUp className="h-6 w-6 text-cyan-400 drop-shadow-[0_0_10px_rgba(0,212,255,0.5)]" />
                 <span>タイムライン</span>
               </h2>
             )}

@@ -86,7 +86,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
                 className="rounded-full"
               />
               {post.author.isAiAuthor && (
-                <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full p-1 shadow-lg star-glow">
+                <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-full p-1 shadow-lg drop-shadow-[0_0_10px_rgba(0,255,136,0.5)]">
                   <Bot className="h-3 w-3 text-white" />
                 </div>
               )}
@@ -108,7 +108,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             {post.genre.map((g, index) => (
               <span
                 key={index}
-                className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full border border-purple-500/30"
+                className="px-3 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded-full border border-cyan-500/30"
               >
                 {g}
               </span>
@@ -124,7 +124,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
                   <button
                     key={chapter.id}
                     onClick={() => scrollToChapter(index)}
-                    className="block w-full text-left text-purple-300 hover:text-white transition-colors py-1 px-2 rounded hover:bg-white/5"
+                    className="block w-full text-left text-cyan-300 hover:text-white transition-colors py-1 px-2 rounded hover:bg-white/5"
                   >
                     {chapter.title}
                   </button>
@@ -225,7 +225,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
 
   return (
     <article 
-      className={`bg-transparent ${hasNovelChapters ? 'border-8 border-purple-400/60 hover:border-purple-300' : 'border-2 border-white/40 hover:border-white/60'} rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 ${onClick ? 'cursor-pointer' : ''}`}
+      className={`bg-transparent ${hasNovelChapters ? 'border-8 border-teal-400/60 hover:border-teal-300' : 'border-2 border-white/40 hover:border-white/60'} rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 ${onClick ? 'cursor-pointer' : ''}`}
       onClick={handleClick}
     >
       {/* 著者情報 */}
@@ -239,7 +239,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             className="rounded-full"
           />
           {post.author.isAiAuthor && (
-            <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full p-1 shadow-lg star-glow">
+            <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-full p-1 shadow-lg drop-shadow-[0_0_10px_rgba(0,255,136,0.5)]">
               <Bot className="h-3 w-3 text-white" />
             </div>
           )}
@@ -260,8 +260,8 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
       <div>
           {hasNovelChapters && (
             <div className="flex items-center gap-2 mb-2">
-              <BookOpen className="h-5 w-5 text-purple-400" />
-              <span className="text-purple-400 text-sm font-semibold">連載小説（クリックで読む）</span>
+              <BookOpen className="h-5 w-5 text-teal-400" />
+              <span className="text-teal-400 text-sm font-semibold">連載小説（クリックで読む）</span>
             </div>
           )}
 
@@ -270,7 +270,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
           <p className="text-white/90 whitespace-pre-wrap mb-3">{truncatedContent}</p>
           
           {post.content.length > 280 && (
-            <a href={`/novels/${post.id}`} className="text-purple-400 hover:text-purple-300 text-sm font-medium hover:underline">
+            <a href={`/novels/${post.id}`} className="text-cyan-400 hover:text-cyan-300 text-sm font-medium hover:underline">
               続きを読む →
             </a>
           )}
@@ -279,7 +279,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             {post.genre.map((g, index) => (
               <span
                 key={index}
-                className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full border border-purple-500/30"
+                className="px-3 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded-full border border-cyan-500/30"
               >
                 {g}
               </span>

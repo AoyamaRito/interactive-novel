@@ -4,6 +4,12 @@
 
 @layer base {
   :root {
+    --aurora-green: #00ff88;
+    --aurora-blue: #00d4ff;
+    --aurora-purple: #b366ff;
+    --aurora-pink: #ff66d9;
+    --aurora-teal: #00ffcc;
+    --aurora-yellow: #ffff66;
     --cosmos-50: #f5f3ff;
     --cosmos-100: #ede9fe;
     --cosmos-200: #ddd6fe;
@@ -19,7 +25,7 @@
   }
   
   body {
-    @apply bg-gradient-to-b from-slate-950 via-purple-950 to-indigo-950 text-gray-100 min-h-screen;
+    @apply bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-gray-100 min-h-screen;
     position: relative;
     overflow-x: hidden;
   }
@@ -32,11 +38,19 @@
     right: 0;
     bottom: 0;
     background-image: 
-      radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(244, 114, 182, 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(251, 191, 36, 0.1) 0%, transparent 50%);
+      radial-gradient(ellipse at 30% 0%, rgba(0, 255, 136, 0.3) 0%, transparent 40%),
+      radial-gradient(ellipse at 70% 0%, rgba(179, 102, 255, 0.3) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 0%, rgba(0, 212, 255, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 20% 50%, rgba(255, 102, 217, 0.2) 0%, transparent 40%),
+      radial-gradient(ellipse at 80% 50%, rgba(0, 255, 204, 0.2) 0%, transparent 40%);
     pointer-events: none;
     z-index: 1;
+    animation: aurora 15s ease-in-out infinite;
+  }
+  
+  @keyframes aurora {
+    0%, 100% { opacity: 0.8; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-10px); }
   }
   
   #__next {
@@ -53,7 +67,7 @@
   .gradient-border {
     @apply relative;
     background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)) padding-box,
-                linear-gradient(135deg, #8b5cf6, #f472b6) border-box;
+                linear-gradient(135deg, #00ff88, #00d4ff, #b366ff) border-box;
     border: 2px solid transparent;
   }
   
@@ -62,7 +76,7 @@
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent;
   }
   
   .star-glow {
