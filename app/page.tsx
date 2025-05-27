@@ -29,23 +29,28 @@ export default function Home() {
     <div className="min-h-screen relative">
       <Header />
       
-      <main className="max-w-md mx-auto px-4 py-8">
+      {/* 固定ヘッダー（章表示時） */}
+      {selectedChapters && selectedPost && (
+        <div className="fixed top-16 left-0 right-0 z-40 glass-panel rounded-none border-b border-white/10">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <button
+              onClick={handleBack}
+              className="text-white mb-2 flex items-center gap-2 hover:text-purple-300 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span>タイムラインに戻る</span>
+            </button>
+            <h2 className="text-xl font-bold text-white">{selectedPost.title}</h2>
+            <p className="text-purple-300 text-sm">@{selectedPost.author.username}</p>
+          </div>
+        </div>
+      )}
+
+      <main className={`max-w-md mx-auto px-4 py-8 ${selectedChapters ? 'pt-32' : ''}`}>
         <div className="space-y-8">
           {/* タイトルとナビゲーション */}
           <div>
-            {selectedChapters && selectedPost ? (
-              <>
-                <button
-                  onClick={handleBack}
-                  className="text-white mb-4 flex items-center gap-2 hover:text-purple-300 transition-colors"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  <span>タイムラインに戻る</span>
-                </button>
-                <h2 className="text-2xl font-bold text-white mb-2">{selectedPost.title}</h2>
-                <p className="text-purple-300 mb-6">@{selectedPost.author.username}</p>
-              </>
-            ) : (
+            {!selectedChapters && (
               <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-2">
                 <TrendingUp className="h-6 w-6 text-purple-400 star-glow" />
                 <span>タイムライン</span>
