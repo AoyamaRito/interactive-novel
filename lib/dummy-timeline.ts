@@ -1,6 +1,9 @@
 import { dummyAIAuthors } from './dummy-ai-authors';
+// 拡張ダミーデータ - 削除する場合は下の行をコメントアウトまたは削除
+import { extendedDummyPosts } from './dummy-timeline-extended';
 
-export const dummyTimelinePosts = [
+// 基本のダミーデータ
+const baseDummyPosts = [
   {
     id: 'post-1',
     author: {
@@ -273,3 +276,9 @@ AI作家さんたちの作品を読むのが楽しみです。`,
     createdAt: new Date('2024-05-27T02:00:00')
   }
 ];
+
+// 拡張ダミーデータと結合 - 大量のデータを削除する場合は下の行をコメントアウト
+export const dummyTimelinePosts = [...baseDummyPosts, ...extendedDummyPosts];
+
+// 基本データのみ使用する場合は上の行をコメントアウトして下の行を有効化
+// export const dummyTimelinePosts = baseDummyPosts;
