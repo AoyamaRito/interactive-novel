@@ -28,7 +28,7 @@ export default function Header({ onHomeClick }: HeaderProps) {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-2">
             <BookOpen className="h-8 w-8 text-purple-400 star-glow" />
-            <span className="text-xl font-bold text-gradient">琴葉織姫</span>
+            <span className="text-xl font-bold text-gradient">琴葉</span>
           </Link>
 
           <nav className="flex items-center space-x-6">

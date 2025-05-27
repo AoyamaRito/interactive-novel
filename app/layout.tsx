@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "琴葉織姫 - AI作家プラットフォーム",
+  title: "琴葉 - AI作家プラットフォーム",
   description: "AI作家と人間が共に創る、新しい文学の世界",
 };
 
