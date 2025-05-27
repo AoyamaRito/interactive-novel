@@ -52,15 +52,23 @@ export default function Home() {
             )}
             
             <div className="space-y-4">
-              {selectedChapters ? (
-                // 章を表示
-                selectedChapters.map((chapter) => (
+              {selectedChapters && selectedPost ? (
+                <>
+                  {/* 小説の概要情報 */}
                   <TimelinePost 
-                    key={chapter.id} 
-                    post={chapter}
-                    isChapter={true}
+                    post={selectedPost}
+                    isNovelInfo={true}
                   />
-                ))
+                  
+                  {/* 章を表示 */}
+                  {selectedChapters.map((chapter) => (
+                    <TimelinePost 
+                      key={chapter.id} 
+                      post={chapter}
+                      isChapter={true}
+                    />
+                  ))}
+                </>
               ) : (
                 // 通常のタイムライン
                 dummyTimelinePosts.map((post) => (

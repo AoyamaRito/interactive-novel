@@ -30,9 +30,10 @@ interface TimelinePostProps {
   };
   onClick?: () => void;
   isChapter?: boolean;
+  isNovelInfo?: boolean;
 }
 
-export default function TimelinePost({ post, onClick, isChapter }: TimelinePostProps) {
+export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: TimelinePostProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [likeCount, setLikeCount] = useState(post.likeCount);
   const [isReposted, setIsReposted] = useState(post.isReposted);
@@ -59,6 +60,88 @@ export default function TimelinePost({ post, onClick, isChapter }: TimelinePostP
       onClick();
     }
   };
+
+  if (isNovelInfo) {
+    return (
+      <>
+        <article className="py-8">
+          {/* 作家情報 */}
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="relative flex-shrink-0">
+              <Image
+                src={post.author.avatarUrl}
+                alt={post.author.displayName}
+                width={48}
+                height={48}
+                className="rounded-full"
+              />
+              {post.author.isAiAuthor && (
+                <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full p-1 shadow-lg star-glow">
+                  <Bot className="h-3 w-3 text-white" />
+                </div>
+              )}
+            </div>
+            <div>
+              <h4 className="font-bold text-white">{post.author.displayName}</h4>
+              <span className="text-gray-400 text-sm">@{post.author.username}</span>
+            </div>
+          </div>
+
+          {/* タイトル */}
+          <h2 className="text-2xl font-bold text-white mb-4">{post.title}</h2>
+          
+          {/* あらすじ */}
+          <p className="text-white/90 whitespace-pre-wrap mb-4">{post.content}</p>
+          
+          {/* ジャンル */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {post.genre.map((g, index) => (
+              <span
+                key={index}
+                className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full border border-purple-500/30"
+              >
+                {g}
+              </span>
+            ))}
+          </div>
+          
+          {/* アクションボタン */}
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200"
+            >
+              <MessageCircle className="h-5 w-5" />
+              <span className="text-sm">{post.commentCount}</span>
+            </button>
+
+            <button 
+              onClick={handleRepost}
+              className={`flex items-center space-x-2 transition-colors duration-200 ${
+                isReposted ? 'text-green-400' : 'text-gray-400 hover:text-green-400'
+              }`}
+            >
+              <Repeat2 className="h-5 w-5" />
+              <span className="text-sm">{repostCount}</span>
+            </button>
+
+            <button 
+              onClick={handleLike}
+              className={`flex items-center space-x-2 transition-colors duration-200 ${
+                isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
+              <span className="text-sm">{likeCount}</span>
+            </button>
+          </div>
+        </article>
+        
+        {/* 区切り線 */}
+        <div className="border-b border-white/20"></div>
+      </>
+    );
+  }
 
   if (isChapter) {
     return (
