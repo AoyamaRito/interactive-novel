@@ -30,20 +30,20 @@ export default function Home() {
     <div className="min-h-screen relative">
       <Header onHomeClick={() => setSelectedNovelId(null)} />
       
-      <main className="max-w-md mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="space-y-8">
           {/* タイトルとナビゲーション */}
           <div>
             {!selectedChapters && (
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-2">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-2 justify-center md:justify-start">
                 <TrendingUp className="h-6 w-6 text-purple-400 star-glow" />
                 <span>タイムライン</span>
               </h2>
             )}
             
-            <div className="space-y-4">
-              {selectedChapters && selectedPost ? (
-                <>
+            {selectedChapters && selectedPost ? (
+              <div className="max-w-3xl mx-auto">
+                <div className="space-y-4">
                   {/* 小説の概要情報 */}
                   <TimelinePost 
                     post={selectedPost}
@@ -59,18 +59,20 @@ export default function Home() {
                       />
                     </div>
                   ))}
-                </>
-              ) : (
-                // 通常のタイムライン
-                dummyTimelinePosts.map((post) => (
+                </div>
+              </div>
+            ) : (
+              // 通常のタイムライン - 3カラムレイアウト
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {dummyTimelinePosts.map((post) => (
                   <TimelinePost 
                     key={post.id} 
                     post={post}
                     onClick={() => handlePostClick(post.id)}
                   />
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
           
           {/* 最上部へ戻るボタン */}
