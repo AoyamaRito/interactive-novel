@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from '@/components/layout/Header';
 import TimelinePost from '@/components/timeline/TimelinePost';
 import { dummyTimelinePosts } from '@/lib/dummy-timeline';
@@ -17,10 +17,6 @@ export default function Home() {
     }
   };
 
-  // URLパスの変化を監視してリセット
-  useEffect(() => {
-    setSelectedNovelId(null);
-  }, []);
 
   // 選択された小説の章を取得
   const selectedChapters = selectedNovelId ? getNovelChapters(selectedNovelId) : null;
@@ -28,19 +24,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      <Header />
+      <Header onHomeClick={() => setSelectedNovelId(null)} />
       
-      {/* 固定ヘッダー（章表示時） */}
-      {selectedChapters && selectedPost && (
-        <div className="fixed top-16 left-0 right-0 z-40 glass-panel rounded-none border-b border-white/10">
-          <div className="max-w-md mx-auto px-4 py-4">
-            <h2 className="text-xl font-bold text-white">{selectedPost.title}</h2>
-            <p className="text-purple-300 text-sm">@{selectedPost.author.username}</p>
-          </div>
-        </div>
-      )}
-
-      <main className={`max-w-md mx-auto px-4 py-8 ${selectedChapters ? 'pt-28' : ''}`}>
+      <main className="max-w-md mx-auto px-4 py-8">
         <div className="space-y-8">
           {/* タイトルとナビゲーション */}
           <div>

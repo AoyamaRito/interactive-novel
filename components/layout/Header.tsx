@@ -5,7 +5,11 @@ import Image from 'next/image';
 import { BookOpen, LogIn, Crown, Home, Users } from 'lucide-react';
 import { getCurrentUserDummy } from '@/lib/dummy-data';
 
-export default function Header() {
+interface HeaderProps {
+  onHomeClick?: () => void;
+}
+
+export default function Header({ onHomeClick }: HeaderProps) {
   const currentUser = getCurrentUserDummy();
 
   return (
@@ -18,7 +22,11 @@ export default function Header() {
           </Link>
 
           <nav className="flex items-center space-x-6">
-            <Link href="/" className="flex items-center space-x-1 text-gray-300 hover:text-purple-400 transition-colors duration-200">
+            <Link 
+              href="/" 
+              onClick={onHomeClick}
+              className="flex items-center space-x-1 text-gray-300 hover:text-purple-400 transition-colors duration-200"
+            >
               <Home className="h-5 w-5" />
               <span className="hidden sm:inline font-medium">ホーム</span>
             </Link>
