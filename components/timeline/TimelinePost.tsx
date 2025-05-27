@@ -225,7 +225,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
 
   return (
     <article 
-      className={`bg-transparent ${hasNovelChapters ? 'border-8 border-teal-400/60 hover:border-teal-300' : 'border-2 border-white/40 hover:border-white/60'} rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 ${onClick ? 'cursor-pointer' : ''}`}
+      className={`bg-transparent ${hasNovelChapters ? 'border-8 border-teal-400/60 hover:border-teal-300 rounded-2xl hover:shadow-2xl hover:-translate-y-1 cursor-pointer' : ''} transition-all duration-300 p-6`}
       onClick={handleClick}
     >
       {/* 著者情報 */}
