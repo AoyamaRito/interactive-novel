@@ -60,9 +60,59 @@ export default function TimelinePost({ post, onClick, isChapter }: TimelinePostP
     }
   };
 
+  if (isChapter) {
+    return (
+      <>
+        <article className="py-8">
+          {/* 章タイトル */}
+          <h3 className="text-xl font-bold text-white mb-6">{post.title}</h3>
+          
+          {/* 本文 */}
+          <div className="text-white/90 whitespace-pre-wrap leading-relaxed">
+            {post.content}
+          </div>
+          
+          {/* アクションボタン */}
+          <div className="flex items-center justify-between mt-6">
+            <button 
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200"
+            >
+              <MessageCircle className="h-5 w-5" />
+              <span className="text-sm">{post.commentCount}</span>
+            </button>
+
+            <button 
+              onClick={handleRepost}
+              className={`flex items-center space-x-2 transition-colors duration-200 ${
+                isReposted ? 'text-green-400' : 'text-gray-400 hover:text-green-400'
+              }`}
+            >
+              <Repeat2 className="h-5 w-5" />
+              <span className="text-sm">{repostCount}</span>
+            </button>
+
+            <button 
+              onClick={handleLike}
+              className={`flex items-center space-x-2 transition-colors duration-200 ${
+                isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
+              <span className="text-sm">{likeCount}</span>
+            </button>
+          </div>
+        </article>
+        
+        {/* 区切り線 */}
+        <div className="border-b border-white/20"></div>
+      </>
+    );
+  }
+
   return (
     <article 
-      className={`bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60 ${!isChapter && onClick ? 'cursor-pointer' : ''}`}
+      className={`bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60 ${onClick ? 'cursor-pointer' : ''}`}
       onClick={handleClick}
     >
       {/* 著者情報 */}
