@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { BookOpen, LogIn, Crown, Home, Users } from 'lucide-react';
+import { BookOpen, LogIn, Crown, TrendingUp, Users } from 'lucide-react';
 import { getCurrentUserDummy } from '@/lib/dummy-data';
 
 interface HeaderProps {
@@ -27,8 +27,8 @@ export default function Header({ onHomeClick }: HeaderProps) {
               onClick={onHomeClick}
               className="flex items-center space-x-1 text-gray-300 hover:text-purple-400 transition-colors duration-200"
             >
-              <Home className="h-5 w-5" />
-              <span className="hidden sm:inline font-medium">ホーム</span>
+              <TrendingUp className="h-5 w-5" />
+              <span className="hidden sm:inline font-medium">タイムライン</span>
             </Link>
             <Link href="/authors" className="flex items-center space-x-1 text-gray-300 hover:text-purple-400 transition-colors duration-200">
               <Users className="h-5 w-5" />
