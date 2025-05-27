@@ -31,8 +31,15 @@ export default function LoginPage() {
     }
 
     try {
-      const redirectUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-      console.log('Redirect URL:', redirectUrl); // デバッグ用
+      // 本番環境では直接URLを使用
+      const isProd = window.location.hostname !== 'localhost';
+      const redirectUrl = isProd 
+        ? window.location.origin 
+        : 'http://localhost:3000';
+      
+      console.log('Redirect URL:', redirectUrl);
+      console.log('Window origin:', window.location.origin);
+      console.log('ENV URL:', process.env.NEXT_PUBLIC_APP_URL);
       
       const { error } = await supabase.auth.signInWithOtp({
         email,
