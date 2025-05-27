@@ -16,6 +16,15 @@ export default function LoginPage() {
     setIsLoading(true);
     setMessage(null);
 
+    if (!supabase) {
+      setMessage({ 
+        type: 'error', 
+        text: 'Supabaseが設定されていません。環境変数を確認してください。' 
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email,

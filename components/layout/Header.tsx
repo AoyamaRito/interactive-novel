@@ -16,7 +16,9 @@ export default function Header({ onHomeClick }: HeaderProps) {
   const supabase = createClient();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
     router.push('/');
   };
 
