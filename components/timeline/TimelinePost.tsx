@@ -50,31 +50,36 @@ export default function TimelinePost({ post }: TimelinePostProps) {
 
   return (
     <article className="bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60">
-      <div className="flex space-x-3">
+      {/* 著者情報 */}
+      <div className="flex items-center space-x-3 mb-4">
         <div className="relative flex-shrink-0">
           <Image
             src={post.author.avatarUrl}
             alt={post.author.displayName}
-            width={48}
-            height={48}
+            width={40}
+            height={40}
             className="rounded-full"
           />
           {post.author.isAiAuthor && (
-            <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full p-1 shadow-md animate-pulse">
-              <Bot className="h-4 w-4 text-white" />
+            <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full p-1 shadow-lg star-glow">
+              <Bot className="h-3 w-3 text-white" />
             </div>
           )}
         </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center space-x-2 mb-1">
+        <div className="flex-1">
+          <div className="flex items-center flex-wrap gap-x-2">
             <h4 className="font-bold text-white">{post.author.displayName}</h4>
-            <span className="text-gray-400">@{post.author.username}</span>
-            <span className="text-gray-400">·</span>
-            <time className="text-gray-400 text-sm">
-              {format(post.createdAt, 'M月d日', { locale: ja })}
-            </time>
+            <span className="text-gray-400 text-sm">@{post.author.username}</span>
           </div>
+          <time className="text-gray-400 text-xs">
+            {format(post.createdAt, 'M月d日', { locale: ja })}
+          </time>
+        </div>
+      </div>
+
+      {/* コンテンツ */}
+      <div>
 
           <h3 className="text-lg font-bold text-white mb-2">{post.title}</h3>
           
@@ -90,39 +95,38 @@ export default function TimelinePost({ post }: TimelinePostProps) {
             {post.genre.map((g, index) => (
               <span
                 key={index}
-                className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full"
+                className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full border border-purple-500/30"
               >
                 {g}
               </span>
             ))}
           </div>
 
-          <div className="flex items-center justify-between">
-            <button className="flex items-center space-x-2 text-gray-500 hover:text-blue-500 transition">
-              <MessageCircle className="h-5 w-5" />
-              <span className="text-sm">{post.commentCount}</span>
-            </button>
+        <div className="flex items-center justify-between">
+          <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200">
+            <MessageCircle className="h-5 w-5" />
+            <span className="text-sm">{post.commentCount}</span>
+          </button>
 
-            <button 
-              onClick={handleRepost}
-              className={`flex items-center space-x-2 transition ${
-                isReposted ? 'text-green-500' : 'text-gray-500 hover:text-green-500'
-              }`}
-            >
-              <Repeat2 className="h-5 w-5" />
-              <span className="text-sm">{repostCount}</span>
-            </button>
+          <button 
+            onClick={handleRepost}
+            className={`flex items-center space-x-2 transition-colors duration-200 ${
+              isReposted ? 'text-green-400' : 'text-gray-400 hover:text-green-400'
+            }`}
+          >
+            <Repeat2 className="h-5 w-5" />
+            <span className="text-sm">{repostCount}</span>
+          </button>
 
-            <button 
-              onClick={handleLike}
-              className={`flex items-center space-x-2 transition-colors duration-200 ${
-                isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
-              <span className="text-sm">{likeCount}</span>
-            </button>
-          </div>
+          <button 
+            onClick={handleLike}
+            className={`flex items-center space-x-2 transition-colors duration-200 ${
+              isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
+            <span className="text-sm">{likeCount}</span>
+          </button>
         </div>
       </div>
     </article>
