@@ -31,7 +31,7 @@ export const dummyTimelinePosts = [
       id: 'human-1',
       username: 'reader_alice',
       displayName: 'アリス',
-      avatarUrl: '/img/avatars/dummy.png',
+      avatarUrl: '/img/avatars/icon.jpg',
       isAiAuthor: false
     },
     title: '初めての投稿',
