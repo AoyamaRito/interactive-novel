@@ -83,32 +83,32 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
                 alt={post.author.displayName}
                 width={48}
                 height={48}
-                className="rounded-full border border-gray-900"
+                className="rounded-full"
               />
               {post.author.isAiAuthor && (
-                <div className="absolute -bottom-1 -right-1 bg-gray-900 rounded-full p-1">
+                <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full p-1 shadow-lg star-glow">
                   <Bot className="h-3 w-3 text-white" />
                 </div>
               )}
             </div>
             <div>
-              <h4 className="font-bold text-gray-900">{post.author.displayName}</h4>
-              <span className="text-gray-600 text-sm">@{post.author.username}</span>
+              <h4 className="font-bold text-white">{post.author.displayName}</h4>
+              <span className="text-gray-400 text-sm">@{post.author.username}</span>
             </div>
           </div>
 
           {/* タイトル */}
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">{post.title}</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">{post.title}</h2>
           
           {/* あらすじ */}
-          <p className="text-gray-700 whitespace-pre-wrap mb-4">{post.content}</p>
+          <p className="text-white/90 whitespace-pre-wrap mb-4">{post.content}</p>
           
           {/* ジャンル */}
           <div className="flex flex-wrap gap-2 mb-6">
             {post.genre.map((g, index) => (
               <span
                 key={index}
-                className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full border border-gray-300"
+                className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full border border-purple-500/30"
               >
                 {g}
               </span>
@@ -118,13 +118,13 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
           {/* 目次 */}
           {chapters && chapters.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-3">目次</h3>
+              <h3 className="text-lg font-bold text-white mb-3">目次</h3>
               <div className="space-y-2">
                 {chapters.map((chapter, index) => (
                   <button
                     key={chapter.id}
                     onClick={() => scrollToChapter(index)}
-                    className="block w-full text-left text-gray-700 hover:text-gray-900 transition-colors py-1 px-2 rounded hover:bg-gray-50"
+                    className="block w-full text-left text-purple-300 hover:text-white transition-colors py-1 px-2 rounded hover:bg-white/5"
                   >
                     {chapter.title}
                   </button>
@@ -137,7 +137,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
           <div className="flex items-center justify-between">
             <button 
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors duration-200"
+              className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200"
             >
               <MessageCircle className="h-5 w-5" />
               <span className="text-sm">{post.commentCount}</span>
@@ -146,7 +146,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             <button 
               onClick={handleRepost}
               className={`flex items-center space-x-2 transition-colors duration-200 ${
-                isReposted ? 'text-green-600' : 'text-gray-600 hover:text-green-600'
+                isReposted ? 'text-green-400' : 'text-gray-400 hover:text-green-400'
               }`}
             >
               <Repeat2 className="h-5 w-5" />
@@ -156,7 +156,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             <button 
               onClick={handleLike}
               className={`flex items-center space-x-2 transition-colors duration-200 ${
-                isLiked ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900'
+                isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
               }`}
             >
               <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
@@ -166,7 +166,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
         </article>
         
         {/* 太い区切り線 */}
-        <div className="border-b-4 border-gray-300 mb-4"></div>
+        <div className="border-b-4 border-white/30 mb-4"></div>
       </>
     );
   }
@@ -176,10 +176,10 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
       <>
         <article className="py-8">
           {/* 章タイトル */}
-          <h3 className="text-xl font-bold text-gray-900 mb-6">{post.title}</h3>
+          <h3 className="text-xl font-bold text-white mb-6">{post.title}</h3>
           
           {/* 本文 */}
-          <div className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+          <div className="text-white/90 whitespace-pre-wrap leading-relaxed">
             {post.content}
           </div>
           
@@ -187,7 +187,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
           <div className="flex items-center justify-between mt-6">
             <button 
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors duration-200"
+              className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200"
             >
               <MessageCircle className="h-5 w-5" />
               <span className="text-sm">{post.commentCount}</span>
@@ -196,7 +196,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             <button 
               onClick={handleRepost}
               className={`flex items-center space-x-2 transition-colors duration-200 ${
-                isReposted ? 'text-green-600' : 'text-gray-600 hover:text-green-600'
+                isReposted ? 'text-green-400' : 'text-gray-400 hover:text-green-400'
               }`}
             >
               <Repeat2 className="h-5 w-5" />
@@ -206,7 +206,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             <button 
               onClick={handleLike}
               className={`flex items-center space-x-2 transition-colors duration-200 ${
-                isLiked ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900'
+                isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
               }`}
             >
               <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
@@ -216,14 +216,14 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
         </article>
         
         {/* 区切り線 */}
-        <div className="border-b border-gray-300"></div>
+        <div className="border-b border-white/20"></div>
       </>
     );
   }
 
   return (
     <article 
-      className={`bg-transparent border-2 border-gray-300 rounded-2xl hover:shadow-lg transition-all duration-300 p-6 ${onClick ? 'cursor-pointer' : ''}`}
+      className={`bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60 ${onClick ? 'cursor-pointer' : ''}`}
       onClick={handleClick}
     >
       {/* 著者情報 */}
@@ -237,7 +237,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             className="rounded-full"
           />
           {post.author.isAiAuthor && (
-            <div className="absolute -bottom-1 -right-1 bg-gray-900 rounded-full p-1">
+            <div className="absolute -bottom-1 -right-1 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full p-1 shadow-lg star-glow">
               <Bot className="h-3 w-3 text-white" />
             </div>
           )}
@@ -245,10 +245,10 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
 
         <div className="flex-1">
           <div className="flex items-center flex-wrap gap-x-2">
-            <h4 className="font-bold text-gray-900">{post.author.displayName}</h4>
-            <span className="text-gray-600 text-sm">@{post.author.username}</span>
+            <h4 className="font-bold text-white">{post.author.displayName}</h4>
+            <span className="text-gray-400 text-sm">@{post.author.username}</span>
           </div>
-          <time className="text-gray-600 text-xs">
+          <time className="text-gray-400 text-xs">
             {format(post.createdAt, 'M月d日', { locale: ja })}
           </time>
         </div>
@@ -257,12 +257,12 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
       {/* コンテンツ */}
       <div>
 
-          <h3 className="text-lg font-bold text-gray-900 mb-2">{post.title}</h3>
+          <h3 className="text-lg font-bold text-white mb-2">{post.title}</h3>
           
-          <p className="text-gray-700 whitespace-pre-wrap mb-3">{truncatedContent}</p>
+          <p className="text-white/90 whitespace-pre-wrap mb-3">{truncatedContent}</p>
           
           {post.content.length > 280 && (
-            <a href={`/novels/${post.id}`} className="text-gray-700 hover:text-gray-900 text-sm font-medium hover:underline">
+            <a href={`/novels/${post.id}`} className="text-purple-400 hover:text-purple-300 text-sm font-medium hover:underline">
               続きを読む →
             </a>
           )}
@@ -271,7 +271,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
             {post.genre.map((g, index) => (
               <span
                 key={index}
-                className="px-3 py-1 bg-gray-50 text-gray-700 text-xs rounded-full border border-gray-300"
+                className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full border border-purple-500/30"
               >
                 {g}
               </span>
@@ -281,7 +281,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
         <div className="flex items-center justify-between">
           <button 
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors duration-200"
+            className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200"
           >
             <MessageCircle className="h-5 w-5" />
             <span className="text-sm">{post.commentCount}</span>
@@ -290,7 +290,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
           <button 
             onClick={handleRepost}
             className={`flex items-center space-x-2 transition-colors duration-200 ${
-              isReposted ? 'text-green-600' : 'text-gray-600 hover:text-green-600'
+              isReposted ? 'text-green-400' : 'text-gray-400 hover:text-green-400'
             }`}
           >
             <Repeat2 className="h-5 w-5" />
@@ -300,7 +300,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
           <button 
             onClick={handleLike}
             className={`flex items-center space-x-2 transition-colors duration-200 ${
-              isLiked ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900'
+              isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
             }`}
           >
             <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
