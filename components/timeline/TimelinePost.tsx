@@ -25,21 +25,27 @@ interface TimelinePostProps {
     isLiked: boolean;
     isReposted: boolean;
     createdAt: Date;
+    chapterNumber?: number;
+    isChapter?: boolean;
   };
+  onClick?: () => void;
+  isChapter?: boolean;
 }
 
-export default function TimelinePost({ post }: TimelinePostProps) {
+export default function TimelinePost({ post, onClick, isChapter }: TimelinePostProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [likeCount, setLikeCount] = useState(post.likeCount);
   const [isReposted, setIsReposted] = useState(post.isReposted);
   const [repostCount, setRepostCount] = useState(post.repostCount);
 
-  const handleLike = () => {
+  const handleLike = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsLiked(!isLiked);
     setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
   };
 
-  const handleRepost = () => {
+  const handleRepost = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsReposted(!isReposted);
     setRepostCount(prev => isReposted ? prev - 1 : prev + 1);
   };
@@ -48,8 +54,17 @@ export default function TimelinePost({ post }: TimelinePostProps) {
     ? post.content.substring(0, 280) + '...' 
     : post.content;
 
+  const handleClick = () => {
+    if (onClick && !isChapter) {
+      onClick();
+    }
+  };
+
   return (
-    <article className="bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60">
+    <article 
+      className={`bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60 ${!isChapter && onClick ? 'cursor-pointer' : ''}`}
+      onClick={handleClick}
+    >
       {/* 著者情報 */}
       <div className="flex items-center space-x-3 mb-4">
         <div className="relative flex-shrink-0">
@@ -103,7 +118,10 @@ export default function TimelinePost({ post }: TimelinePostProps) {
           </div>
 
         <div className="flex items-center justify-between">
-          <button className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200">
+          <button 
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors duration-200"
+          >
             <MessageCircle className="h-5 w-5" />
             <span className="text-sm">{post.commentCount}</span>
           </button>
