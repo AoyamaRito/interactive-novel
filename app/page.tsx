@@ -5,7 +5,7 @@ import Header from '@/components/layout/Header';
 import TimelinePost from '@/components/timeline/TimelinePost';
 import { dummyTimelinePosts } from '@/lib/dummy-timeline';
 import { getNovelChapters } from '@/lib/novel-chapters';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, ArrowUp } from 'lucide-react';
 
 export default function Home() {
   const [selectedNovelId, setSelectedNovelId] = useState<string | null>(null);
@@ -21,6 +21,10 @@ export default function Home() {
   // 選択された小説の章を取得
   const selectedChapters = selectedNovelId ? getNovelChapters(selectedNovelId) : null;
   const selectedPost = selectedNovelId ? dummyTimelinePosts.find(p => p.id === selectedNovelId) : null;
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen relative">
@@ -67,6 +71,17 @@ export default function Home() {
                 ))
               )}
             </div>
+          </div>
+          
+          {/* 最上部へ戻るボタン */}
+          <div className="mt-12 text-center">
+            <button
+              onClick={scrollToTop}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-white/40 text-white rounded-full hover:bg-white/10 hover:border-white/60 transition-all duration-300 hover:-translate-y-1"
+            >
+              <ArrowUp className="h-5 w-5" />
+              <span>最上部へ戻る</span>
+            </button>
           </div>
         </div>
       </main>
