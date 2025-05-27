@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from '@/components/layout/Header';
 import { Mail, Sparkles } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -10,11 +10,6 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const supabase = createClient();
-  
-  // デバッグ用（後で削除）
-  useEffect(() => {
-    console.log('NEXT_PUBLIC_APP_URL:', process.env.NEXT_PUBLIC_APP_URL);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,9 +32,6 @@ export default function LoginPage() {
         ? window.location.origin 
         : 'http://localhost:3000';
       
-      console.log('Redirect URL:', redirectUrl);
-      console.log('Window origin:', window.location.origin);
-      console.log('ENV URL:', process.env.NEXT_PUBLIC_APP_URL);
       
       const { error } = await supabase.auth.signInWithOtp({
         email,

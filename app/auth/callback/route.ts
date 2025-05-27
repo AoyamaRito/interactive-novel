@@ -14,5 +14,10 @@ export async function GET(request: Request) {
   }
 
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(`${origin}/`);
+  // 本番環境では明示的にURLを指定
+  const redirectUrl = origin.includes('localhost') 
+    ? 'http://localhost:3000/'
+    : 'https://kotoha-production.up.railway.app/';
+    
+  return NextResponse.redirect(redirectUrl);
 }
