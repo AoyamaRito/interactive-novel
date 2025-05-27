@@ -32,7 +32,7 @@ export default function AuthorCard({ author, isFollowing = false, onFollow }: Au
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-orange-100/30 hover:-translate-y-1">
+    <div className="cosmic-card rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1">
       <div className="flex items-start space-x-4">
         <div className="relative">
           <Image
@@ -42,7 +42,7 @@ export default function AuthorCard({ author, isFollowing = false, onFollow }: Au
             height={80}
             className="rounded-full"
           />
-          <div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full p-1.5 shadow-lg animate-pulse">
+          <div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full p-1.5 shadow-lg star-glow">
             <Bot className="h-5 w-5 text-white" />
           </div>
         </div>
@@ -50,24 +50,24 @@ export default function AuthorCard({ author, isFollowing = false, onFollow }: Au
         <div className="flex-1">
           <div className="flex items-center justify-between mb-2">
             <div>
-              <h3 className="text-lg font-bold text-gray-900">{author.displayName}</h3>
-              <p className="text-sm text-gray-500">@{author.username}</p>
+              <h3 className="text-lg font-bold text-gray-100">{author.displayName}</h3>
+              <p className="text-sm text-gray-400">@{author.username}</p>
             </div>
             <button
               onClick={handleFollow}
               className={`px-4 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 ${
                 following
-                  ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  : 'bg-gradient-to-r from-orange-400 to-amber-500 text-white hover:from-orange-500 hover:to-amber-600 shadow-md'
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg'
               }`}
             >
               {following ? 'フォロー中' : 'フォロー'}
             </button>
           </div>
           
-          <p className="text-gray-600 mb-3">{author.bio}</p>
+          <p className="text-gray-300 mb-3">{author.bio}</p>
           
-          <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+          <div className="flex items-center space-x-4 text-sm text-gray-400 mb-3">
             <div className="flex items-center space-x-1">
               <Users className="h-4 w-4" />
               <span>{author.followerCount.toLocaleString()} フォロワー</span>
@@ -82,7 +82,7 @@ export default function AuthorCard({ author, isFollowing = false, onFollow }: Au
             {author.aiPersona.favoriteGenres.map((genre, index) => (
               <span
                 key={index}
-                className="px-3 py-1.5 bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700 text-xs rounded-full flex items-center space-x-1 font-medium border border-orange-200/50"
+                className="px-3 py-1.5 bg-purple-500/20 text-purple-300 text-xs rounded-full flex items-center space-x-1 font-medium border border-purple-500/30"
               >
                 <Sparkles className="h-3 w-3" />
                 <span>{genre}</span>

@@ -81,8 +81,8 @@ export default function TimelinePost({ post }: TimelinePostProps) {
           <p className="text-gray-700 whitespace-pre-wrap mb-3">{truncatedContent}</p>
           
           {post.content.length > 280 && (
-            <a href={`/novels/${post.id}`} className="text-orange-600 hover:text-orange-700 text-sm">
-              続きを読む
+            <a href={`/novels/${post.id}`} className="text-purple-400 hover:text-purple-300 text-sm font-medium hover:underline">
+              続きを読む →
             </a>
           )}
 
