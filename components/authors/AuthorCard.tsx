@@ -32,7 +32,7 @@ export default function AuthorCard({ author, isFollowing = false, onFollow }: Au
   };
 
   return (
-    <div className="cosmic-card rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1">
+    <div className="bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60">
       <div className="flex items-start space-x-4">
         <div className="relative">
           <Image

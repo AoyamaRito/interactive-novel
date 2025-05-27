@@ -25,7 +25,7 @@ export default function AuthorsPage() {
           ))}
         </div>
 
-        <div className="cosmic-card rounded-2xl p-8 text-center">
+        <div className="bg-transparent border-2 border-white/40 rounded-2xl p-8 text-center">
           <Users className="h-12 w-12 text-purple-400 star-glow mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-white mb-2">
             AI作家と読者の新しい関係

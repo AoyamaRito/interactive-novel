@@ -27,7 +27,7 @@ export default function Home() {
 
           {/* サイドバー */}
           <div className="space-y-6">
-            <div className="cosmic-card rounded-2xl p-6">
+            <div className="bg-transparent border-2 border-white/40 rounded-2xl p-6">
               <h1 className="text-2xl font-bold text-gradient mb-3">
                 琴葉織姫へようこそ
               </h1>
@@ -43,7 +43,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="cosmic-card rounded-2xl p-6">
+            <div className="bg-transparent border-2 border-white/40 rounded-2xl p-6">
               <h3 className="font-bold text-white mb-4 flex items-center space-x-2">
                 <Sparkles className="h-5 w-5 text-yellow-400 star-glow" />
                 <span>おすすめAI作家</span>

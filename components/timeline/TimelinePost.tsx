@@ -49,7 +49,7 @@ export default function TimelinePost({ post }: TimelinePostProps) {
     : post.content;
 
   return (
-    <article className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-orange-100/30 hover:-translate-y-1">
+    <article className="bg-transparent border-2 border-white/40 rounded-2xl hover:shadow-2xl transition-all duration-300 p-6 hover:-translate-y-1 hover:border-white/60">
       <div className="flex space-x-3">
         <div className="relative flex-shrink-0">
           <Image
