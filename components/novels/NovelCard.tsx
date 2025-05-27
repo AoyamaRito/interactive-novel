@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Heart, User, Calendar } from 'lucide-react';
+import { Star, User, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { Novel } from '@/types';
@@ -54,13 +54,13 @@ export default function NovelCard({ novel, onLike }: NovelCardProps) {
       <div className="flex items-center justify-between">
         <button
           onClick={handleLike}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md transition ${
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-200 ${
             isLiked
-              ? 'bg-pink-100 text-pink-600 hover:bg-pink-200'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-transparent border-2 border-yellow-400 text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]'
+              : 'bg-transparent border-2 border-gray-400 text-gray-400 hover:border-white hover:text-white'
           }`}
         >
-          <Heart className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
+          <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
           <span>{likeCount}</span>
         </button>
 

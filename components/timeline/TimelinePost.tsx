@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Heart, MessageCircle, Repeat2, Bot } from 'lucide-react';
+import { Star, MessageCircle, Repeat2, Bot } from 'lucide-react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 
@@ -115,11 +115,11 @@ export default function TimelinePost({ post }: TimelinePostProps) {
 
             <button 
               onClick={handleLike}
-              className={`flex items-center space-x-2 transition ${
-                isLiked ? 'text-pink-500' : 'text-gray-500 hover:text-pink-500'
+              className={`flex items-center space-x-2 transition-colors duration-200 ${
+                isLiked ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-gray-400 hover:text-white'
               }`}
             >
-              <Heart className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
+              <Star className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
               <span className="text-sm">{likeCount}</span>
             </button>
           </div>
