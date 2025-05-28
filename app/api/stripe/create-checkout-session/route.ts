@@ -3,11 +3,16 @@ import { stripe, PRICE_CONFIG } from '@/lib/stripe-server';
 import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
+  console.log('=== Create Checkout Session Start ===');
+  
   try {
     const body = await request.json();
+    console.log('Request body:', body);
+    
     const { user_id, email } = body;
 
     if (!user_id || !email) {
+      console.error('Missing user info:', { user_id, email });
       return NextResponse.json(
         { error: 'ユーザー情報が不足しています' },
         { status: 400 }
@@ -70,14 +75,28 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Price IDを確認
+    console.log('PRICE_CONFIG.PREMIUM_MONTHLY:', PRICE_CONFIG.PREMIUM_MONTHLY);
+    console.log('process.env.STRIPE_PRICE_ID:', process.env.STRIPE_PRICE_ID);
+    
+    if (!process.env.STRIPE_PRICE_ID) {
+      console.error('STRIPE_PRICE_ID is not set in environment variables');
+      return NextResponse.json(
+        { error: 'Stripe価格IDが設定されていません' },
+        { status: 500 }
+      );
+    }
+
     // チェックアウトセッションを作成
+    console.log('Creating checkout session with price:', process.env.STRIPE_PRICE_ID);
+    
     const session = await stripe.checkout.sessions.create({
       customer: customer.id,
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [
         {
-          price: PRICE_CONFIG.PREMIUM_MONTHLY,
+          price: process.env.STRIPE_PRICE_ID,
           quantity: 1,
         },
       ],
@@ -91,8 +110,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ sessionId: session.id });
   } catch (error) {
     console.error('Stripe checkout session creation error:', error);
+    
+    // エラーメッセージを詳細に
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error details:', errorMessage);
+    
     return NextResponse.json(
-      { error: 'チェックアウトセッションの作成に失敗しました' },
+      { 
+        error: 'チェックアウトセッションの作成に失敗しました',
+        details: errorMessage 
+      },
       { status: 500 }
     );
   }
