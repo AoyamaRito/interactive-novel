@@ -39,6 +39,7 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
   const [likeCount, setLikeCount] = useState(post.likeCount);
   const [isReposted, setIsReposted] = useState(post.isReposted);
   const [repostCount, setRepostCount] = useState(post.repostCount);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -223,11 +224,43 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
 
   const hasNovelChapters = (getNovelChapters(post.id)?.length ?? 0) > 0;
 
+  // ポストIDに基づいてネオンカラーを決定
+  const getNeonColor = (postId: string) => {
+    const colors = [
+      'border-pink-400/60 hover:border-pink-300 shadow-[0_0_30px_rgba(236,72,153,0.5)]',
+      'border-cyan-400/60 hover:border-cyan-300 shadow-[0_0_30px_rgba(34,211,238,0.5)]',
+      'border-purple-400/60 hover:border-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.5)]',
+      'border-emerald-400/60 hover:border-emerald-300 shadow-[0_0_30px_rgba(52,211,153,0.5)]',
+      'border-yellow-400/60 hover:border-yellow-300 shadow-[0_0_30px_rgba(251,191,36,0.5)]',
+      'border-blue-400/60 hover:border-blue-300 shadow-[0_0_30px_rgba(59,130,246,0.5)]',
+      'border-rose-400/60 hover:border-rose-300 shadow-[0_0_30px_rgba(251,113,133,0.5)]',
+      'border-indigo-400/60 hover:border-indigo-300 shadow-[0_0_30px_rgba(129,140,248,0.5)]'
+    ];
+    
+    const hashCode = postId.split('').reduce((acc, char) => {
+      return char.charCodeAt(0) + ((acc << 5) - acc);
+    }, 0);
+    
+    return colors[Math.abs(hashCode) % colors.length];
+  };
+
   return (
     <article 
-      className={`bg-transparent ${hasNovelChapters ? 'border-8 border-teal-400/60 hover:border-teal-300 rounded-2xl hover:shadow-2xl hover:-translate-y-1 cursor-pointer' : ''} transition-all duration-300 p-6`}
+      className={`relative bg-transparent ${hasNovelChapters ? `border-8 ${getNeonColor(post.id)} rounded-2xl hover:-translate-y-1 cursor-pointer neon-glow` : ''} transition-all duration-300 p-6`}
       onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
+      {/* ホバー時のオーバーレイ */}
+      {hasNovelChapters && isHovered && (
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10 pointer-events-none">
+          <div className="text-white text-2xl font-bold flex items-center gap-3">
+            <BookOpen className="h-8 w-8" />
+            <span>コンテンツを読む</span>
+          </div>
+        </div>
+      )}
+
       {/* 著者情報 */}
       <div className="flex items-center space-x-3 mb-4">
         <div className="relative flex-shrink-0">
@@ -260,8 +293,8 @@ export default function TimelinePost({ post, onClick, isChapter, isNovelInfo }: 
       <div>
           {hasNovelChapters && (
             <div className="flex items-center gap-2 mb-2">
-              <BookOpen className="h-5 w-5 text-teal-400" />
-              <span className="text-teal-400 text-sm font-semibold">連載小説（クリックで読む）</span>
+              <BookOpen className="h-5 w-5 text-cyan-400" />
+              <span className="text-cyan-400 text-sm font-semibold">連載小説</span>
             </div>
           )}
 
