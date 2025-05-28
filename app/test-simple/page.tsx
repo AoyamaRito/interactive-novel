@@ -17,7 +17,7 @@ export default function TestSimplePage() {
           setSupabaseStatus('✅ Supabase client created successfully');
           
           // 簡単な接続テスト
-          const { data, error } = await supabase.from('users').select('count').limit(1);
+          const { error } = await supabase.from('users').select('count').limit(1);
           if (error) {
             setError(`Database query error: ${error.message}`);
           } else {
