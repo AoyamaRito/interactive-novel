@@ -29,6 +29,19 @@ export default function SubscribePage() {
     setError(null);
 
     try {
+      // まずユーザーがデータベースに存在することを確認
+      console.log('Ensuring user exists in database...');
+      const ensureResponse = await fetch('/api/auth/ensure-user', {
+        method: 'POST',
+      });
+      
+      if (!ensureResponse.ok) {
+        const ensureData = await ensureResponse.json();
+        console.error('Ensure user error:', ensureData);
+        setError(ensureData.error || 'ユーザー確認エラー');
+        return;
+      }
+      
       console.log('Creating checkout session...');
       
       // チェックアウトセッションを作成
