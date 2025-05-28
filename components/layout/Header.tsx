@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles } from 'lucide-react';
+import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { createClient } from '@/lib/supabase/client';
 
@@ -54,10 +54,17 @@ export default function Header({ onHomeClick }: HeaderProps) {
                   <>
                     <Link
                       href="/subscribe"
-                      className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
+                      className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-3 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
                     >
                       <Crown className="h-4 w-4" />
-                      <span>プレミアム</span>
+                      <span className="hidden md:inline">プレミアム</span>
+                    </Link>
+                    <Link
+                      href="/billing"
+                      className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                    >
+                      <CreditCard className="h-5 w-5" />
+                      <span className="hidden md:inline font-medium">請求</span>
                     </Link>
                     <div className="flex items-center space-x-3">
                       <span className="text-gray-300">{user.email}</span>
