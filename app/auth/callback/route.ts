@@ -6,18 +6,21 @@ export async function GET(request: Request) {
   const code = requestUrl.searchParams.get('code');
   const origin = requestUrl.origin;
 
+  console.log('Auth callback - URL:', requestUrl.toString());
+  console.log('Auth callback - Code:', code);
+  console.log('Auth callback - Origin:', origin);
+
   if (code) {
     const supabase = await createClient();
     if (supabase) {
-      await supabase.auth.exchangeCodeForSession(code);
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      if (error) {
+        console.error('Auth callback error:', error);
+        return NextResponse.redirect(`${origin}/?error=${encodeURIComponent(error.message)}`);
+      }
     }
   }
 
   // URL to redirect to after sign in process completes
-  // 本番環境では明示的にURLを指定
-  const redirectUrl = origin.includes('localhost') 
-    ? 'http://localhost:3000/'
-    : 'https://kotoha-production.up.railway.app/';
-    
-  return NextResponse.redirect(redirectUrl);
+  return NextResponse.redirect(origin);
 }

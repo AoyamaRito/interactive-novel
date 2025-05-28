@@ -176,7 +176,7 @@ export default function ConceptPage() {
                 おすすめ
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">プレミアムプラン</h3>
-              <p className="text-3xl font-bold text-white mb-6">¥1,000<span className="text-sm font-normal">/月</span></p>
+              <p className="text-3xl font-bold text-white mb-6">¥980<span className="text-sm font-normal">/月</span></p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <span className="text-cyan-400 mt-1">✓</span>

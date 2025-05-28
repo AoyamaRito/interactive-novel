@@ -57,7 +57,7 @@ export default function Header({ onHomeClick }: HeaderProps) {
                       className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
                     >
                       <Crown className="h-4 w-4" />
-                      <span>プレミアムに登録</span>
+                      <span>プレミアム</span>
                     </Link>
                     <div className="flex items-center space-x-3">
                       <span className="text-gray-300">{user.email}</span>

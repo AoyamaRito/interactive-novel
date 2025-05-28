@@ -35,11 +35,10 @@ export default function LoginPage() {
 
     try {
       // 本番環境では直接URLを使用
-      const isProd = window.location.hostname !== 'localhost';
-      const redirectUrl = isProd 
-        ? window.location.origin 
-        : 'http://localhost:3000';
+      const redirectUrl = window.location.origin;
       
+      
+      console.log('Redirect URL:', `${redirectUrl}/auth/callback`);
       
       const { error } = await supabase.auth.signInWithOtp({
         email,
