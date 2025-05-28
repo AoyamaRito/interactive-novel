@@ -1,8 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { User, AuthChangeEvent, Session } from '@supabase/supabase-js';
-import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
 
 interface AuthContextType {
   user: User | null;
@@ -25,47 +24,49 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
   useEffect(() => {
-    if (!supabase) {
-      console.warn('Supabase client not available, skipping auth');
-      setLoading(false);
-      return;
-    }
-
-    // Get initial session
-    const getSession = async () => {
+    const initAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error('Auth session error:', error);
+        // 動的インポートでSupabaseクライアントを安全に読み込み
+        const { createClient } = await import('@/lib/supabase/client');
+        const supabase = createClient();
+
+        if (!supabase) {
+          console.warn('Supabase client not available, running without auth');
+          setLoading(false);
+          return;
+        }
+
+        // セッション取得
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Auth session error:', sessionError);
         } else {
           setUser(session?.user ?? null);
         }
-      } catch (error) {
-        console.error('Failed to get session:', error);
+
+        // 認証状態の変更を監視
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          (event, session) => {
+            console.log('Auth state changed:', event);
+            setUser(session?.user ?? null);
+          }
+        );
+
+        return () => {
+          subscription.unsubscribe();
+        };
+      } catch (err) {
+        console.error('Auth initialization error:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    getSession();
-
-    // Listen for auth changes
-    try {
-      const {
-        data: { subscription },
-      } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
-        setUser(session?.user ?? null);
-      });
-
-      return () => subscription.unsubscribe();
-    } catch (error) {
-      console.error('Failed to set up auth listener:', error);
-      setLoading(false);
-    }
-  }, [supabase]);
+    initAuth();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>
