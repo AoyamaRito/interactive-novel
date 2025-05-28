@@ -2,8 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
+interface EnvInfo {
+  url?: string;
+  keyExists: boolean;
+  keyLength: number;
+  appUrl?: string;
+  nodeEnv?: string;
+}
+
 export default function EnvCheckPage() {
-  const [envInfo, setEnvInfo] = useState<any>(null);
+  const [envInfo, setEnvInfo] = useState<EnvInfo | null>(null);
 
   useEffect(() => {
     const info = {
