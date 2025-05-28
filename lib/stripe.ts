@@ -1,14 +1,6 @@
-import Stripe from 'stripe';
-
-// サーバーサイド用
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-04-30.basil',
-  typescript: true,
-});
-
 // クライアントサイド用（Stripeパブリッシャブルキー）
 export const getStripePublishableKey = () => {
-  return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!;
+  return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '';
 };
 
 // 価格設定
