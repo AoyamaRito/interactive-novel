@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import Header from '@/components/layout/Header';
 
 export default function TestAuthPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{id: string; email?: string} | null>(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
