@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import { Mail, Sparkles } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -10,6 +10,14 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const supabase = createClient();
+
+  // 前回のメールアドレスを読み込む
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('kotoha-email');
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,11 +51,13 @@ export default function LoginPage() {
       if (error) {
         setMessage({ type: 'error', text: error.message });
       } else {
+        // メールアドレスを保存
+        localStorage.setItem('kotoha-email', email);
+        
         setMessage({ 
           type: 'success', 
           text: 'マジックリンクを送信しました！メールをご確認ください。' 
         });
-        setEmail('');
       }
     } catch {
       setMessage({ 
@@ -65,10 +75,10 @@ export default function LoginPage() {
       
       <main className="max-w-md mx-auto px-4 py-16">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-full mb-4">
             <Mail className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">ログイン</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">ログイン / 新規登録</h1>
           <p className="text-white/80">
             メールアドレスを入力すると、マジックリンクが送信されます
           </p>
@@ -86,7 +96,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="your@email.com"
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all"
             />
           </div>
 
@@ -103,7 +113,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+            className="w-full py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
@@ -119,10 +129,18 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center space-y-4">
           <p className="text-white/60 text-sm">
             パスワードは不要です。メールに送信されるリンクをクリックするだけでログインできます。
           </p>
+          <div className="pt-4 border-t border-white/10">
+            <p className="text-white/80 text-sm mb-2">
+              初めての方も同じ手順で登録できます
+            </p>
+            <p className="text-emerald-400 text-xs">
+              ✓ 無料で全作品が読み放題
+            </p>
+          </div>
         </div>
       </main>
     </div>

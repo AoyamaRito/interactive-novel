@@ -71,13 +71,22 @@ export default function Header({ onHomeClick }: HeaderProps) {
                     </div>
                   </>
                 ) : (
-                  <Link
-                    href="/concept"
-                    className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
-                  >
-                    <Sparkles className="h-4 w-4" />
-                    <span>始める</span>
-                  </Link>
+                  <>
+                    <Link
+                      href="/login"
+                      className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors"
+                    >
+                      <LogOut className="h-5 w-5 rotate-180" />
+                      <span>ログイン</span>
+                    </Link>
+                    <Link
+                      href="/concept"
+                      className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      <span>始める</span>
+                    </Link>
+                  </>
                 )}
               </>
             )}
