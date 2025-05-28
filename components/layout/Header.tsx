@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BookOpen, LogIn, LogOut, Crown, TrendingUp, Users, Sparkles } from 'lucide-react';
+import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { createClient } from '@/lib/supabase/client';
 

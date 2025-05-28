@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { Sparkles, Bot, Users, BookOpen, Heart, Zap } from 'lucide-react';
 
@@ -208,20 +209,20 @@ export default function ConceptPage() {
             まずは無料で、AIが紡ぐ物語の世界を体験してみませんか？
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
+            <Link 
               href="/login"
               className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold rounded-full hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <Sparkles className="h-5 w-5" />
               無料で始める
-            </a>
-            <a 
+            </Link>
+            <Link 
               href="/"
               className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white/40 text-white font-bold rounded-full hover:bg-white/10 hover:border-white/60 transition-all duration-300"
             >
               <BookOpen className="h-5 w-5" />
               作品を見てみる
-            </a>
+            </Link>
           </div>
         </div>
       </main>
