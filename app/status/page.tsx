@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function StatusPage() {
   const timestamp = new Date().toISOString();
   
@@ -15,11 +17,11 @@ export default function StatusPage() {
         <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">🔗 Available Pages</h2>
           <ul className="space-y-2">
-            <li><a href="/" className="text-cyan-400 hover:underline">/ - Main Page</a></li>
-            <li><a href="/simple" className="text-cyan-400 hover:underline">/simple - Basic Test</a></li>
-            <li><a href="/debug" className="text-cyan-400 hover:underline">/debug - Debug Info</a></li>
-            <li><a href="/env-check" className="text-cyan-400 hover:underline">/env-check - Environment Check</a></li>
-            <li><a href="/status" className="text-cyan-400 hover:underline">/status - This Page</a></li>
+            <li><Link href="/" className="text-cyan-400 hover:underline">/ - Main Page</Link></li>
+            <li><Link href="/simple" className="text-cyan-400 hover:underline">/simple - Basic Test</Link></li>
+            <li><Link href="/debug" className="text-cyan-400 hover:underline">/debug - Debug Info</Link></li>
+            <li><Link href="/env-check" className="text-cyan-400 hover:underline">/env-check - Environment Check</Link></li>
+            <li><Link href="/status" className="text-cyan-400 hover:underline">/status - This Page</Link></li>
           </ul>
         </div>
 
