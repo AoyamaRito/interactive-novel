@@ -7,7 +7,13 @@ import Header from '@/components/layout/Header';
 export default function AuthDebugPage() {
   const { user, loading } = useAuth();
   const [supabaseStatus, setSupabaseStatus] = useState<string>('Checking...');
-  const [sessionInfo, setSessionInfo] = useState<any>(null);
+  const [sessionInfo, setSessionInfo] = useState<{
+    error?: string;
+    hasSession?: boolean;
+    user?: string;
+    userId?: string;
+    expiresAt?: number;
+  } | null>(null);
 
   useEffect(() => {
     const checkSupabase = async () => {
