@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const supabase = createClient();
 
   // 前回のメールアドレスを読み込む
   useEffect(() => {
@@ -24,19 +23,21 @@ export default function LoginPage() {
     setIsLoading(true);
     setMessage(null);
 
-    if (!supabase) {
-      setMessage({ 
-        type: 'error', 
-        text: 'Supabaseが設定されていません。環境変数を確認してください。' 
-      });
-      setIsLoading(false);
-      return;
-    }
-
     try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      
+      if (!supabase) {
+        setMessage({ 
+          type: 'error', 
+          text: 'Supabaseが設定されていません。環境変数を確認してください。' 
+        });
+        setIsLoading(false);
+        return;
+      }
+
       // 本番環境では直接URLを使用
       const redirectUrl = window.location.origin;
-      
       
       console.log('Redirect URL:', `${redirectUrl}/auth/callback`);
       

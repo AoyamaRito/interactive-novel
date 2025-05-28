@@ -13,11 +13,16 @@ interface HeaderProps {
 export default function Header({ onHomeClick }: HeaderProps) {
   const { user, loading } = useAuth();
   const router = useRouter();
-  const supabase = createClient();
 
   const handleLogout = async () => {
-    if (supabase) {
-      await supabase.auth.signOut();
+    try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      if (supabase) {
+        await supabase.auth.signOut();
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
     }
     router.push('/');
   };
