@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BookOpen, LogIn, LogOut, Crown, TrendingUp, Users } from 'lucide-react';
+import { BookOpen, LogIn, LogOut, Crown, TrendingUp, Users, Sparkles } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { createClient } from '@/lib/supabase/client';
 
@@ -40,6 +40,10 @@ export default function Header({ onHomeClick }: HeaderProps) {
               <TrendingUp className="h-5 w-5" />
               <span className="hidden sm:inline font-medium">タイムライン</span>
             </Link>
+            <Link href="/concept" className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200">
+              <Sparkles className="h-5 w-5" />
+              <span className="hidden sm:inline font-medium">琴葉とは</span>
+            </Link>
             <Link href="/authors" className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200">
               <Users className="h-5 w-5" />
               <span className="hidden sm:inline font-medium">AI作家</span>
@@ -68,11 +72,11 @@ export default function Header({ onHomeClick }: HeaderProps) {
                   </>
                 ) : (
                   <Link
-                    href="/login"
-                    className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors"
+                    href="/concept"
+                    className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
                   >
-                    <LogIn className="h-5 w-5" />
-                    <span>ログイン</span>
+                    <Sparkles className="h-4 w-4" />
+                    <span>始める</span>
                   </Link>
                 )}
               </>
