@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import Header from '@/components/layout/Header';
 import { useAuth } from '@/components/providers/AuthProvider';
-import { Crown, Check, Sparkles, BookOpen } from 'lucide-react';
+import { Crown, Check, Sparkles } from 'lucide-react';
 import { getStripePublishableKey } from '@/lib/stripe';
 
 // Stripeの初期化
@@ -55,7 +55,7 @@ export default function SubscribePage() {
           setError(stripeError.message || 'エラーが発生しました');
         }
       }
-    } catch (err) {
+    } catch {
       setError('エラーが発生しました。もう一度お試しください。');
     } finally {
       setIsLoading(false);

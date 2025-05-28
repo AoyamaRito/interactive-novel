@@ -63,10 +63,12 @@ export async function POST(request: NextRequest) {
         user_id: user_id,
         stripe_customer_id: typeof customer === 'string' ? customer : customer.id,
         stripe_subscription_id: subscriptionData.id,
-        status: subscriptionData.status as any,
+        status: subscriptionData.status as 'active' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'past_due' | 'trialing' | 'unpaid',
         price_id: subscriptionData.items.data[0].price.id,
-        current_period_start: new Date(subscriptionData.current_period_start * 1000).toISOString(),
-        current_period_end: new Date(subscriptionData.current_period_end * 1000).toISOString(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        current_period_start: new Date((subscriptionData as any).current_period_start * 1000).toISOString(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        current_period_end: new Date((subscriptionData as any).current_period_end * 1000).toISOString(),
       });
 
     if (insertError) {
