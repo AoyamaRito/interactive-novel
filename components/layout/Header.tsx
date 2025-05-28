@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
-import { createClient } from '@/lib/supabase/client';
 
 interface HeaderProps {
   onHomeClick?: () => void;
