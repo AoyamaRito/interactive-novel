@@ -3,14 +3,12 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import { Mail, ArrowLeft } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 export default function EmailLoginPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const supabase = createClient();
 
   // 前回のメールアドレスを読み込む
   useEffect(() => {
@@ -25,16 +23,19 @@ export default function EmailLoginPage() {
     setIsLoading(true);
     setMessage(null);
 
-    if (!supabase) {
-      setMessage({ 
-        type: 'error', 
-        text: 'Supabaseが設定されていません。環境変数を確認してください。' 
-      });
-      setIsLoading(false);
-      return;
-    }
-
     try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      
+      if (!supabase) {
+        setMessage({ 
+          type: 'error', 
+          text: 'Supabaseが設定されていません。環境変数を確認してください。' 
+        });
+        setIsLoading(false);
+        return;
+      }
+
       const redirectUrl = window.location.origin;
       
       const { error } = await supabase.auth.signInWithOtp({

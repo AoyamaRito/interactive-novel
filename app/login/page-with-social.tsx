@@ -3,27 +3,28 @@
 import { useState } from 'react';
 import Header from '@/components/layout/Header';
 import { Mail, Sparkles } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const supabase = createClient();
 
   const handleSocialLogin = async (provider: 'google' | 'twitter') => {
     setIsLoading(provider);
     setMessage(null);
 
-    if (!supabase) {
-      setMessage({ 
-        type: 'error', 
-        text: 'Supabaseが設定されていません。' 
-      });
-      setIsLoading(null);
-      return;
-    }
-
     try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      
+      if (!supabase) {
+        setMessage({ 
+          type: 'error', 
+          text: 'Supabaseが設定されていません。' 
+        });
+        setIsLoading(null);
+        return;
+      }
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
