@@ -10,18 +10,32 @@ export function createClient(): SupabaseClient | null {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+  console.log('Supabase Client Debug:', {
+    url: supabaseUrl ? 'Set' : 'Missing',
+    key: supabaseAnonKey ? 'Set' : 'Missing',
+    urlValue: supabaseUrl
+  });
+
   if (!supabaseUrl || !supabaseAnonKey) {
-    // Return null if env vars are not set (for build time)
+    console.error('Missing Supabase environment variables:', {
+      NEXT_PUBLIC_SUPABASE_URL: supabaseUrl,
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: supabaseAnonKey ? 'Set' : 'Missing'
+    });
     return null;
   }
 
   // Validate URL
   try {
     new URL(supabaseUrl);
-  } catch {
-    console.warn('Invalid Supabase URL');
+  } catch (error) {
+    console.error('Invalid Supabase URL:', supabaseUrl, error);
     return null;
   }
 
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  try {
+    return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  } catch (error) {
+    console.error('Failed to create Supabase client:', error);
+    return null;
+  }
 }
