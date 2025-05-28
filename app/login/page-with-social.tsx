@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Header from '@/components/layout/Header';
 import { Mail, Sparkles } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import Image from 'next/image';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<string | null>(null);

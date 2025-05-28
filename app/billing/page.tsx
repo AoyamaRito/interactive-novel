@@ -1,13 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/layout/Header';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Crown, CreditCard, Calendar, AlertCircle, CheckCircle } from 'lucide-react';
-import { loadStripe } from '@stripe/stripe-js';
-import { getStripePublishableKey } from '@/lib/stripe';
-
-const stripePromise = loadStripe(getStripePublishableKey());
 
 interface Subscription {
   id: string;
@@ -25,13 +21,7 @@ export default function BillingPage() {
   const [actionLoading, setActionLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  useEffect(() => {
-    if (user) {
-      fetchSubscription();
-    }
-  }, [user]);
-
-  const fetchSubscription = async () => {
+  const fetchSubscription = useCallback(async () => {
     try {
       const response = await fetch('/api/stripe/subscription', {
         method: 'GET',
@@ -49,7 +39,13 @@ export default function BillingPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchSubscription();
+    }
+  }, [user, fetchSubscription]);
 
   const handleCancelSubscription = async () => {
     if (!subscription || !confirm('本当にプレミアムプランをキャンセルしますか？')) {

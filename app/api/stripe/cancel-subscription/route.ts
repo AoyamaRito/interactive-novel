@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Stripeでサブスクリプションをキャンセル（期間終了時）
-    const subscription = await stripe.subscriptions.update(subscription_id, {
+    await stripe.subscriptions.update(subscription_id, {
       cancel_at_period_end: true,
     });
 
@@ -49,8 +49,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true,
-      message: 'サブスクリプションのキャンセルを設定しました',
-      cancel_at: new Date(subscription.current_period_end * 1000)
+      message: 'サブスクリプションのキャンセルを設定しました'
     });
   } catch (error) {
     console.error('Subscription cancellation error:', error);
