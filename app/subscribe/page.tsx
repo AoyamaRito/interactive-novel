@@ -16,15 +16,21 @@ export default function SubscribePage() {
   const [error, setError] = useState<string | null>(null);
 
   const handleSubscribe = async () => {
+    console.log('Subscribe button clicked');
+    
     if (!user) {
       setError('ログインが必要です');
+      console.error('No user logged in');
       return;
     }
 
+    console.log('User found:', user.email);
     setIsLoading(true);
     setError(null);
 
     try {
+      console.log('Creating checkout session...');
+      
       // チェックアウトセッションを作成
       const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
@@ -37,7 +43,11 @@ export default function SubscribePage() {
         }),
       });
 
-      const { sessionId, error: apiError } = await response.json();
+      console.log('Response status:', response.status);
+      const data = await response.json();
+      console.log('Response data:', data);
+      
+      const { sessionId, error: apiError } = data;
 
       if (apiError) {
         setError(apiError);
