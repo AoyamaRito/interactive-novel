@@ -10,11 +10,12 @@ export function createClient(): SupabaseClient | null {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  console.log('Supabase Client Debug:', {
-    url: supabaseUrl ? 'Set' : 'Missing',
-    key: supabaseAnonKey ? 'Set' : 'Missing',
-    urlValue: supabaseUrl
-  });
+  console.log('=== Supabase Client Debug ===');
+  console.log('URL Status:', supabaseUrl ? 'Set' : 'Missing');
+  console.log('Key Status:', supabaseAnonKey ? 'Set' : 'Missing');
+  console.log('URL Value:', supabaseUrl);
+  console.log('Key Length:', supabaseAnonKey ? supabaseAnonKey.length : 0);
+  console.log('================================');
 
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error('Missing Supabase environment variables:', {
