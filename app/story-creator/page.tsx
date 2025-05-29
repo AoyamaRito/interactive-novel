@@ -24,6 +24,7 @@ export default function StoryCreatorPage() {
   const router = useRouter();
   const [profiles, setProfiles] = useState<ProfileWithActive[]>([]);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
+  const [selectedEntities, setSelectedEntities] = useState<string[]>([]);
   const [genre, setGenre] = useState('Fantasy');
   const [additionalPrompt, setAdditionalPrompt] = useState('');
   const [aiProvider, setAiProvider] = useState<'openai' | 'xai' | undefined>(undefined);
@@ -64,9 +65,20 @@ export default function StoryCreatorPage() {
     );
   };
 
+  const toggleEntity = (entityId: string) => {
+    setSelectedEntities(prev => 
+      prev.includes(entityId)
+        ? prev.filter(id => id !== entityId)
+        : [...prev, entityId]
+    );
+  };
+
   const generateStory = async () => {
-    if (selectedCharacters.length === 0) {
-      setError('Select at least one character');
+    // Combine all selected entities
+    const allSelectedIds = [...new Set([...selectedCharacters, ...selectedEntities])];
+    
+    if (allSelectedIds.length === 0) {
+      setError('Select at least one character or entity');
       return;
     }
 
@@ -79,7 +91,7 @@ export default function StoryCreatorPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          characterIds: selectedCharacters,
+          characterIds: allSelectedIds, // Send all selected entities
           genre,
           prompt: additionalPrompt,
           aiProvider,
@@ -148,41 +160,90 @@ export default function StoryCreatorPage() {
 
           {!generatedStory ? (
             <div className="grid lg:grid-cols-2 gap-8">
-              {/* Character selection */}
+              {/* Entity selection */}
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 border border-purple-500/20">
                 <h2 className="text-xl font-semibold text-purple-300 mb-4">
-                  Select Characters
+                  Select Characters & Entities
                 </h2>
                 <div className="space-y-3">
-                  {profiles.map(profile => (
-                    <button
-                      key={profile.id}
-                      onClick={() => toggleCharacter(profile.id)}
-                      className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
-                        selectedCharacters.includes(profile.id)
-                          ? 'bg-purple-600/30 border-purple-500'
-                          : 'bg-gray-700/30 border-gray-600 hover:bg-gray-700/50'
-                      } border`}
-                    >
-                      {profile.avatar_url && (
-                        <ExpandableImage
-                          src={profile.avatar_url}
-                          alt={profile.display_name}
-                          className="rounded-full object-cover"
-                          previewSize="small"
-                        />
-                      )}
-                      <div className="flex-1 text-left">
-                        <p className="font-medium text-white">{profile.display_name}</p>
-                        {profile.bio && (
-                          <p className="text-sm text-gray-400 line-clamp-1">{profile.bio}</p>
-                        )}
-                      </div>
-                      {selectedCharacters.includes(profile.id) && (
-                        <Check className="h-5 w-5 text-purple-400" />
-                      )}
-                    </button>
-                  ))}
+                  {/* Characters */}
+                  {profiles.filter(p => !p.entity_type || p.entity_type === 'character').length > 0 && (
+                    <>
+                      <p className="text-sm text-purple-400 font-medium">Characters</p>
+                      {profiles.filter(p => !p.entity_type || p.entity_type === 'character').map(profile => (
+                        <button
+                          key={profile.id}
+                          onClick={() => toggleCharacter(profile.id)}
+                          className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                            selectedCharacters.includes(profile.id)
+                              ? 'bg-purple-600/30 border-purple-500'
+                              : 'bg-gray-700/30 border-gray-600 hover:bg-gray-700/50'
+                          } border`}
+                        >
+                          {profile.avatar_url && (
+                            <ExpandableImage
+                              src={profile.avatar_url}
+                              alt={profile.display_name}
+                              className="rounded-full object-cover"
+                              previewSize="small"
+                            />
+                          )}
+                          <div className="flex-1 text-left">
+                            <p className="font-medium text-white">{profile.display_name}</p>
+                            {profile.bio && (
+                              <p className="text-sm text-gray-400 line-clamp-1">{profile.bio}</p>
+                            )}
+                          </div>
+                          {selectedCharacters.includes(profile.id) && (
+                            <Check className="h-5 w-5 text-purple-400" />
+                          )}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                  
+                  {/* Other Entities */}
+                  {profiles.filter(p => p.entity_type && p.entity_type !== 'character').length > 0 && (
+                    <>
+                      <p className="text-sm text-purple-400 font-medium mt-4">Other Entities</p>
+                      {profiles.filter(p => p.entity_type && p.entity_type !== 'character').map(profile => (
+                        <button
+                          key={profile.id}
+                          onClick={() => toggleEntity(profile.id)}
+                          className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                            selectedEntities.includes(profile.id)
+                              ? 'bg-purple-600/30 border-purple-500'
+                              : 'bg-gray-700/30 border-gray-600 hover:bg-gray-700/50'
+                          } border`}
+                        >
+                          {profile.avatar_url && (
+                            <ExpandableImage
+                              src={profile.avatar_url}
+                              alt={profile.display_name}
+                              className="rounded-full object-cover"
+                              previewSize="small"
+                            />
+                          )}
+                          <div className="flex-1 text-left">
+                            <p className="font-medium text-white">{profile.display_name}</p>
+                            <p className="text-xs text-purple-300">
+                              {profile.entity_type === 'organization' ? '組織' :
+                               profile.entity_type === 'world' ? 'ワールド' :
+                               profile.entity_type === 'item' ? 'アイテム' :
+                               profile.entity_type === 'event' ? 'イベント' :
+                               profile.entity_type === 'concept' ? '概念' : profile.entity_type}
+                            </p>
+                            {profile.bio && (
+                              <p className="text-sm text-gray-400 line-clamp-1">{profile.bio}</p>
+                            )}
+                          </div>
+                          {selectedEntities.includes(profile.id) && (
+                            <Check className="h-5 w-5 text-purple-400" />
+                          )}
+                        </button>
+                      ))}
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -262,7 +323,7 @@ export default function StoryCreatorPage() {
 
                 <button
                   onClick={generateStory}
-                  disabled={generating || selectedCharacters.length === 0}
+                  disabled={generating || (selectedCharacters.length === 0 && selectedEntities.length === 0)}
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {generating ? (

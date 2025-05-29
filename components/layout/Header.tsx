@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard, PenTool } from 'lucide-react';
+import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard, PenTool, Heart, ShoppingBag } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { ProfileSwitcher } from '@/components/ProfileSwitcher';
 
@@ -84,6 +84,20 @@ export default function Header({ onHomeClick }: HeaderProps) {
                       title="クリエイティブ"
                     >
                       <PenTool className="h-5 w-5" />
+                    </Link>
+                    <Link
+                      href="/tales-of-legends"
+                      className="text-gray-300 hover:text-pink-400 transition-colors duration-200"
+                      title="Tales of Legends"
+                    >
+                      <Heart className="h-5 w-5" />
+                    </Link>
+                    <Link
+                      href="/character-shop"
+                      className="text-gray-300 hover:text-yellow-400 transition-colors duration-200"
+                      title="キャラクターショップ"
+                    >
+                      <ShoppingBag className="h-5 w-5" />
                     </Link>
                     <div className="flex items-center space-x-3">
                       {pathname !== '/profiles' && <ProfileSwitcher />}
