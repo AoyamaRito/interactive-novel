@@ -3,20 +3,33 @@ import { stripe } from '@/lib/stripe-server';
 import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
+  console.log('=== Verify Session Start ===');
+  
   try {
     const body = await request.json();
+    console.log('Request body:', body);
+    
     const { session_id } = body;
 
     if (!session_id) {
+      console.error('Missing session_id');
       return NextResponse.json(
         { error: 'セッションIDが必要です' },
         { status: 400 }
       );
     }
 
+    console.log('Retrieving session:', session_id);
+    
     // Stripeセッションを取得
     const session = await stripe.checkout.sessions.retrieve(session_id, {
       expand: ['subscription', 'customer'],
+    });
+    
+    console.log('Session retrieved:', {
+      id: session.id,
+      payment_status: session.payment_status,
+      metadata: session.metadata
     });
 
     if (session.payment_status !== 'paid') {
@@ -82,8 +95,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Session verification error:', error);
+    
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error details:', errorMessage);
+    
     return NextResponse.json(
-      { error: 'セッションの検証に失敗しました' },
+      { 
+        error: 'セッションの検証に失敗しました',
+        details: errorMessage
+      },
       { status: 500 }
     );
   }
