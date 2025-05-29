@@ -78,10 +78,12 @@ export async function POST(request: NextRequest) {
         stripe_subscription_id: subscriptionData.id,
         status: subscriptionData.status as 'active' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'past_due' | 'trialing' | 'unpaid',
         price_id: subscriptionData.items.data[0].price.id,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        current_period_start: new Date((subscriptionData as any).current_period_start * 1000).toISOString(),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        current_period_end: new Date((subscriptionData as any).current_period_end * 1000).toISOString(),
+        current_period_start: subscriptionData.current_period_start 
+          ? new Date(subscriptionData.current_period_start * 1000).toISOString()
+          : new Date().toISOString(),
+        current_period_end: subscriptionData.current_period_end
+          ? new Date(subscriptionData.current_period_end * 1000).toISOString()
+          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30日後
       });
 
     if (insertError) {
@@ -90,6 +92,20 @@ export async function POST(request: NextRequest) {
         { error: 'サブスクリプション情報の保存に失敗しました' },
         { status: 500 }
       );
+    }
+
+    // ユーザーのプレミアムステータスも更新
+    const { error: userUpdateError } = await supabase
+      .from('users')
+      .update({ 
+        is_premium: true,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', user_id);
+
+    if (userUpdateError) {
+      console.error('User update error:', userUpdateError);
+      // エラーが出ても続行
     }
 
     return NextResponse.json({ success: true });
