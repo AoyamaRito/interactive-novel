@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
-import { BookOpen, Sparkles, Check, Loader2 } from 'lucide-react';
+import { BookOpen, Sparkles, Check, Loader2, Send } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import type { ProfileWithActive } from '@/types/profile';
 
@@ -32,6 +32,8 @@ export default function StoryCreatorPage() {
     content: string;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
+  const [publishSuccess, setPublishSuccess] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -97,6 +99,38 @@ export default function StoryCreatorPage() {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setGenerating(false);
+    }
+  };
+
+  const publishStory = async () => {
+    if (!generatedStory) return;
+
+    setPublishing(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/novels', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: generatedStory.title,
+          content: generatedStory.content,
+          genre,
+          summary: `A ${genre} story featuring ${selectedCharacters.length} characters`,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to publish story');
+      }
+
+      setPublishSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred while publishing');
+    } finally {
+      setPublishing(false);
     }
   };
 
@@ -262,11 +296,38 @@ export default function StoryCreatorPage() {
 
               <div className="mt-8 flex gap-4">
                 <button
-                  onClick={() => setGeneratedStory(null)}
+                  onClick={() => {
+                    setGeneratedStory(null);
+                    setPublishSuccess(false);
+                  }}
                   className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors"
                 >
                   Create New Story
                 </button>
+                {!publishSuccess ? (
+                  <button
+                    onClick={publishStory}
+                    disabled={publishing}
+                    className="flex items-center gap-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {publishing ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Publishing...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4" />
+                        Publish Story
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  <div className="flex items-center gap-2 px-6 py-2 bg-green-600/20 border border-green-500 rounded-lg text-green-400">
+                    <Check className="h-4 w-4" />
+                    Published Successfully!
+                  </div>
+                )}
               </div>
             </div>
           )}
