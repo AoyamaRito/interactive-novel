@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { 
@@ -117,12 +117,28 @@ export default function WorldBuildingPage() {
   const [showAvatarGenerator, setShowAvatarGenerator] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!user) {
       router.push('/login');
     }
   }, [user, router]);
+
+  // Auto-scroll to bottom when chat history changes
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      // Add a small delay to ensure DOM is updated
+      setTimeout(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTo({
+            top: chatContainerRef.current.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
+  }, [chatHistory]);
 
   const startConversation = (type: EntityType) => {
     setSelectedType(type);
@@ -262,7 +278,10 @@ export default function WorldBuildingPage() {
                 戻る
               </button>
               
-              <div className="h-96 overflow-y-auto mb-4 space-y-4">
+              <div 
+                ref={chatContainerRef}
+                className="h-96 overflow-y-auto mb-4 space-y-4 scroll-smooth"
+              >
                 {chatHistory.map((message, index) => (
                   <div
                     key={index}
