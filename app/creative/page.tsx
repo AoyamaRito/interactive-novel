@@ -11,9 +11,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'story',
     title: 'Story Creator',
-    titleJa: 'Story Creator',
+    titleJa: '\u7269\u8a9e\u30af\u30ea\u30a8\u30a4\u30bf\u30fc',
     description: 'Create stories using your characters',
-    descriptionJa: 'Create stories using your characters',
+    descriptionJa: '\u4f5c\u6210\u3057\u305f\u30ad\u30e3\u30e9\u30af\u30bf\u30fc\u3092\u4f7f\u3063\u3066\u7269\u8a9e\u3092\u751f\u6210',
     icon: PenTool,
     href: '/story-creator',
     color: 'from-purple-500 to-pink-500',
@@ -22,9 +22,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'illustration',
     title: 'Illustration',
-    titleJa: 'Illustration',
+    titleJa: '\u30a4\u30e9\u30b9\u30c8\u751f\u6210',
     description: 'Generate illustrations for your stories',
-    descriptionJa: 'Generate illustrations for your stories',
+    descriptionJa: '\u7269\u8a9e\u306e\u30a4\u30e9\u30b9\u30c8\u3092\u751f\u6210',
     icon: Palette,
     href: '/creative/illustration',
     color: 'from-blue-500 to-cyan-500',
@@ -33,9 +33,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'audiobook',
     title: 'Audiobook',
-    titleJa: 'Audiobook',
+    titleJa: '\u30aa\u30fc\u30c7\u30a3\u30aa\u30d6\u30c3\u30af',
     description: 'Convert stories to audio',
-    descriptionJa: 'Convert stories to audio',
+    descriptionJa: '\u7269\u8a9e\u3092\u97f3\u58f0\u5316',
     icon: Music,
     href: '/creative/audiobook',
     color: 'from-green-500 to-emerald-500',
@@ -44,9 +44,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'animation',
     title: 'Animation',
-    titleJa: 'Animation',
+    titleJa: '\u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3',
     description: 'Create animated stories',
-    descriptionJa: 'Create animated stories',
+    descriptionJa: '\u7269\u8a9e\u3092\u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3\u5316',
     icon: Video,
     href: '/creative/animation',
     color: 'from-orange-500 to-red-500',
@@ -73,10 +73,10 @@ export default function CreativePage() {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
               <Sparkles className="h-10 w-10 text-purple-400" />
-              Creative Studio
+              \u30af\u30ea\u30a8\u30a4\u30c6\u30a3\u30d6\u30b9\u30bf\u30b8\u30aa
             </h1>
             <p className="text-xl text-purple-300">
-              Create amazing content with AI
+              AI\u3092\u6d3b\u7528\u3057\u3066\u5275\u9020\u7684\u306a\u30b3\u30f3\u30c6\u30f3\u30c4\u3092\u4f5c\u6210
             </p>
           </div>
 
@@ -130,7 +130,7 @@ export default function CreativePage() {
                       
                       {tool.available && (
                         <div className="mt-6 flex items-center text-purple-400 group-hover:text-purple-300 transition-colors">
-                          <span className="text-sm font-medium">Get Started</span>
+                          <span className="text-sm font-medium">\u4f7f\u3063\u3066\u307f\u308b</span>
                           <BookOpen className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         </div>
                       )}
@@ -143,20 +143,20 @@ export default function CreativePage() {
 
           <div className="mt-12 p-6 bg-purple-900/20 rounded-lg border border-purple-500/20">
             <h2 className="text-xl font-semibold text-purple-300 mb-3">
-              Upcoming Features
+              \u4eca\u5f8c\u306e\u6a5f\u80fd\u8ffd\u52a0\u4e88\u5b9a
             </h2>
             <ul className="space-y-2 text-gray-300">
               <li className="flex items-center gap-2">
                 <span className="text-purple-400">•</span>
-                Illustration: Visualize your story scenes
+                \u30a4\u30e9\u30b9\u30c8\u751f\u6210: \u7269\u8a9e\u306e\u30b7\u30fc\u30f3\u3092\u30d3\u30b8\u30e5\u30a2\u30eb\u5316
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-purple-400">•</span>
-                Audiobook: Professional AI narration
+                \u30aa\u30fc\u30c7\u30a3\u30aa\u30d6\u30c3\u30af: \u30d7\u30ed\u306e\u58f0\u512aAI\u306b\u3088\u308b\u6717\u8aad
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-purple-400">•</span>
-                Animation: Bring characters to life
+                \u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3: \u30ad\u30e3\u30e9\u30af\u30bf\u30fc\u304c\u52d5\u304f\u77ed\u7de8\u30a2\u30cb\u30e1
               </li>
             </ul>
           </div>
