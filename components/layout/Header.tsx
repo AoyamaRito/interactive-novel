@@ -82,11 +82,11 @@ export default function Header({ onHomeClick }: HeaderProps) {
                       </Link>
                     )}
                     <Link
-                      href="/story-creator"
+                      href="/creative"
                       className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
                     >
                       <PenTool className="h-5 w-5" />
-                      <span className="hidden md:inline font-medium">物語作成</span>
+                      <span className="hidden md:inline font-medium">クリエイティブ</span>
                     </Link>
                     <div className="flex items-center space-x-3">
                       {pathname !== '/profiles' && <ProfileSwitcher />}
