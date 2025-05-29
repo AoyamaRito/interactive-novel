@@ -78,15 +78,6 @@ export default function Header({ onHomeClick }: HeaderProps) {
                     >
                       <CreditCard className="h-5 w-5" />
                     </Link>
-                    {pathname !== '/profiles' && (
-                      <Link
-                        href="/profiles"
-                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
-                        title="プロフィール"
-                      >
-                        <Users className="h-5 w-5" />
-                      </Link>
-                    )}
                     <Link
                       href="/creative"
                       className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"

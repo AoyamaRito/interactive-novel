@@ -3,11 +3,22 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
-import { PenTool, BookOpen, Palette, Music, Video, Sparkles } from 'lucide-react';
+import { PenTool, BookOpen, Palette, Music, Video, Sparkles, Users } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Link from 'next/link';
 
 const CREATIVE_TOOLS = [
+  {
+    id: 'character',
+    title: 'Character Studio',
+    titleJa: '\u30ad\u30e3\u30e9\u30af\u30bf\u30fc\u30b9\u30bf\u30b8\u30aa',
+    description: 'Create and manage your characters',
+    descriptionJa: '\u30aa\u30ea\u30b8\u30ca\u30eb\u30ad\u30e3\u30e9\u30af\u30bf\u30fc\u3092\u4f5c\u6210\u30fb\u7ba1\u7406',
+    icon: Users,
+    href: '/profiles',
+    color: 'from-indigo-500 to-purple-500',
+    available: true,
+  },
   {
     id: 'story',
     title: 'Story Creator',
