@@ -14,7 +14,7 @@ const CREATIVE_TOOLS = [
     title: CREATIVE_CONTENT.tools.worldbuilding.title,
     description: CREATIVE_CONTENT.tools.worldbuilding.description,
     icon: Globe,
-    href: '/profiles',
+    href: '/worldbuilding',
     color: 'from-indigo-500 to-purple-500',
     available: true,
   },
