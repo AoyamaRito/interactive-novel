@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { POPULAR_CHARACTERS, FANTASY_TEMPLATES, PRICING_PLANS, LegendCharacter, FantasyGenre, FantasySession } from '../../types/tales-of-legends';
+import { POPULAR_CHARACTERS, FANTASY_TEMPLATES, LegendCharacter, FantasyGenre, FantasySession } from '../../types/tales-of-legends';
 
 export default function TalesOfLegendsPage() {
   const [selectedCharacter, setSelectedCharacter] = useState<LegendCharacter | null>(null);
@@ -167,39 +167,16 @@ export default function TalesOfLegendsPage() {
           </div>
         )}
 
-        {/* 料金プラン */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
-          <h2 className="text-2xl font-bold text-center mb-6">💎 プラン</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {PRICING_PLANS.map(plan => (
-              <div key={plan.name} className={`p-6 rounded-xl border-2 ${
-                plan.name === 'プレミアム' ? 'border-purple-300 bg-purple-50' : 'border-gray-200'
-              }`}>
-                <h3 className="text-xl font-bold text-center mb-2">{plan.name}</h3>
-                <div className="text-3xl font-bold text-center mb-4">
-                  {plan.price === 0 ? '無料' : `¥${plan.price}`}
-                  {plan.price > 0 && <span className="text-base text-gray-500">/月</span>}
-                </div>
-                <ul className="text-sm space-y-2">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center">
-                      <span className="text-green-500 mr-2">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                {plan.name !== '無料体験' && (
-                  <button className={`w-full mt-4 py-2 rounded-lg font-medium ${
-                    plan.name === 'プレミアム'
-                      ? 'bg-purple-500 text-white hover:bg-purple-600'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  } transition-colors`}>
-                    選択
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
+        {/* キャラクターショップへのリンク */}
+        <div className="bg-white rounded-2xl p-8 shadow-lg mb-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">💎 もっとキャラクターが欲しい？</h2>
+          <p className="text-gray-600 mb-6">キャラクターショップで新しい仲間を見つけよう！</p>
+          <button
+            onClick={() => window.location.href = '/character-shop'}
+            className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-lg font-bold px-8 py-3 rounded-full hover:from-yellow-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl"
+          >
+            🛒 ショップを見る
+          </button>
         </div>
       </div>
     </div>
