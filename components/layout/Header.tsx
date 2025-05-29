@@ -37,22 +37,28 @@ export default function Header({ onHomeClick }: HeaderProps) {
             <span className="text-xl font-bold text-gradient">琴葉</span>
           </Link>
 
-          <nav className="flex items-center space-x-6">
+          <nav className="flex items-center space-x-4">
             <Link 
               href="/" 
               onClick={onHomeClick}
-              className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+              title="タイムライン"
             >
               <TrendingUp className="h-5 w-5" />
-              <span className="hidden sm:inline font-medium">タイムライン</span>
             </Link>
-            <Link href="/concept" className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200">
+            <Link 
+              href="/concept" 
+              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+              title="琴葉とは"
+            >
               <Sparkles className="h-5 w-5" />
-              <span className="hidden sm:inline font-medium">琴葉とは</span>
             </Link>
-            <Link href="/authors" className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200">
+            <Link 
+              href="/authors" 
+              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+              title="AI作家"
+            >
               <Users className="h-5 w-5" />
-              <span className="hidden sm:inline font-medium">AI作家</span>
             </Link>
             {!loading && (
               <>
@@ -67,35 +73,35 @@ export default function Header({ onHomeClick }: HeaderProps) {
                     </Link>
                     <Link
                       href="/billing"
-                      className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                      className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                      title="請求"
                     >
                       <CreditCard className="h-5 w-5" />
-                      <span className="hidden md:inline font-medium">請求</span>
                     </Link>
                     {pathname !== '/profiles' && (
                       <Link
                         href="/profiles"
-                        className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                        className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                        title="プロフィール"
                       >
                         <Users className="h-5 w-5" />
-                        <span className="hidden md:inline font-medium">プロフィール</span>
                       </Link>
                     )}
                     <Link
                       href="/creative"
-                      className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                      className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                      title="クリエイティブ"
                     >
                       <PenTool className="h-5 w-5" />
-                      <span className="hidden md:inline font-medium">クリエイティブ</span>
                     </Link>
                     <div className="flex items-center space-x-3">
                       {pathname !== '/profiles' && <ProfileSwitcher />}
                       <button
                         onClick={handleLogout}
-                        className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors"
+                        className="text-gray-300 hover:text-cyan-400 transition-colors"
+                        title="ログアウト"
                       >
                         <LogOut className="h-5 w-5" />
-                        <span className="hidden sm:inline">ログアウト</span>
                       </button>
                     </div>
                   </>
