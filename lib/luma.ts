@@ -36,7 +36,7 @@ export class LumaClient {
       body: JSON.stringify({
         prompt,
         aspect_ratio: aspectRatio,
-        model: 'photon-1',
+        model: 'photon-flash-1',
       }),
     });
 
