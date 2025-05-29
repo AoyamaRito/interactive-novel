@@ -5,6 +5,7 @@ import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { BookOpen, Sparkles, Check, Loader2, Send } from 'lucide-react';
 import Header from '@/components/layout/Header';
+import { ExpandableImage } from '@/components/ImageModal';
 import type { ProfileWithActive } from '@/types/profile';
 
 const STORY_GENRES = [
@@ -164,10 +165,11 @@ export default function StoryCreatorPage() {
                       } border`}
                     >
                       {profile.avatar_url && (
-                        <img
+                        <ExpandableImage
                           src={profile.avatar_url}
                           alt={profile.display_name}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="rounded-full object-cover"
+                          previewSize="small"
                         />
                       )}
                       <div className="flex-1 text-left">

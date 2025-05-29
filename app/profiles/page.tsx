@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Home, Users, Building2, Globe, Package, Calendar, Lightbulb } from 'lucide-react';
 import type { ProfileWithActive, EntityType } from '@/types/profile';
 import { AvatarGenerator } from '@/components/AvatarGenerator';
+import { ExpandableImage } from '@/components/ImageModal';
 import Header from '@/components/layout/Header';
 
 export default function ProfilesPage() {
@@ -199,11 +200,14 @@ export default function ProfilesPage() {
                 </label>
                 <div className="space-y-2">
                   {formData.avatar_url && (
-                    <img
-                      src={formData.avatar_url}
-                      alt="アバタープレビュー"
-                      className="w-24 h-24 rounded-full mx-auto"
-                    />
+                    <div className="flex justify-center">
+                      <ExpandableImage
+                        src={formData.avatar_url}
+                        alt="アバタープレビュー"
+                        className="rounded-full mx-auto"
+                        previewSize="large"
+                      />
+                    </div>
                   )}
                   <input
                     type="url"
@@ -262,13 +266,14 @@ export default function ProfilesPage() {
             >
               <div className="flex items-start gap-4">
                 {profile.avatar_url ? (
-                  <img
+                  <ExpandableImage
                     src={profile.avatar_url}
                     alt={profile.display_name}
-                    className="w-16 h-16 rounded-full"
+                    className="rounded-full object-cover"
+                    previewSize="medium"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
                     {profile.display_name[0].toUpperCase()}
                   </div>
                 )}

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import { AvatarGenerator } from '@/components/AvatarGenerator';
+import { ExpandableImage } from '@/components/ImageModal';
 import type { EntityType } from '@/types/profile';
 
 interface Question {
@@ -294,9 +295,13 @@ export default function WorldBuildingPage() {
                   </div>
                 )}
                 
-                {avatarUrl && (
+                {avatarUrl && avatarUrl !== 'skip' && (
                   <div className="flex justify-center">
-                    <img src={avatarUrl} alt="Generated" className="w-32 h-32 rounded-lg" />
+                    <ExpandableImage 
+                      src={avatarUrl} 
+                      alt="Generated Avatar" 
+                      previewSize="large"
+                    />
                   </div>
                 )}
               </div>

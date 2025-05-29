@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Sparkles, Loader2 } from 'lucide-react';
+import { ExpandableImage } from './ImageModal';
 
 interface AvatarGeneratorProps {
   onGenerated: (imageUrl: string) => void;
@@ -158,11 +159,13 @@ export function AvatarGenerator({ onGenerated }: AvatarGeneratorProps) {
       {generatedImage && (
         <div className="space-y-2">
           <p className="text-sm text-purple-300">生成されたアバター:</p>
-          <img
-            src={generatedImage}
-            alt="生成されたアバター"
-            className="w-32 h-32 rounded-lg mx-auto"
-          />
+          <div className="flex justify-center">
+            <ExpandableImage
+              src={generatedImage}
+              alt="生成されたアバター"
+              previewSize="large"
+            />
+          </div>
         </div>
       )}
 
