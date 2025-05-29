@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/supabase/server';
-import type { Profile } from '@/types/profile';
+import { createClient } from '@/lib/supabase/server';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const supabase = await createServerClient();
+    const supabase = await createClient();
+    if (!supabase) {
+      return NextResponse.json({ error: 'Supabaseの初期化に失敗しました' }, { status: 500 });
+    }
     
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
@@ -45,7 +47,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createServerClient();
+    const supabase = await createClient();
+    if (!supabase) {
+      return NextResponse.json({ error: 'Supabaseの初期化に失敗しました' }, { status: 500 });
+    }
     
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
