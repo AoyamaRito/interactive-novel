@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
-import { PenTool, BookOpen, Palette, Music, Video, Sparkles, Users, Globe } from 'lucide-react';
+import { PenTool, BookOpen, Palette, Music, Video, Sparkles, Globe } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Link from 'next/link';
 

@@ -23,7 +23,7 @@ export default function ProfilesPage() {
     avatar_url: '',
     favorite_genres: [] as string[],
     entity_type: 'character' as EntityType,
-    metadata: {} as Record<string, any>,
+    metadata: {} as Record<string, unknown>,
   });
 
   useEffect(() => {
