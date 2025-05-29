@@ -6,6 +6,7 @@ import { ExpandableImage } from './ImageModal';
 
 interface AvatarGeneratorProps {
   onGenerated: (imageUrl: string) => void;
+  initialPrompt?: string;
 }
 
 const AVATAR_STYLES = [
@@ -26,8 +27,8 @@ const PROMPT_SUGGESTIONS = [
   '金色の鎧を着た騎士',
 ];
 
-export function AvatarGenerator({ onGenerated }: AvatarGeneratorProps) {
-  const [prompt, setPrompt] = useState('');
+export function AvatarGenerator({ onGenerated, initialPrompt = '' }: AvatarGeneratorProps) {
+  const [prompt, setPrompt] = useState(initialPrompt);
   const [style, setStyle] = useState('アニメ風');
   const [aiProvider, setAiProvider] = useState<'openai' | 'xai' | undefined>(undefined);
   const [generating, setGenerating] = useState(false);
