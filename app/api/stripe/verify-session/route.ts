@@ -78,12 +78,8 @@ export async function POST(request: NextRequest) {
         stripe_subscription_id: subscriptionData.id,
         status: subscriptionData.status as 'active' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'past_due' | 'trialing' | 'unpaid',
         price_id: subscriptionData.items.data[0].price.id,
-        current_period_start: subscriptionData.current_period_start 
-          ? new Date(subscriptionData.current_period_start * 1000).toISOString()
-          : new Date().toISOString(),
-        current_period_end: subscriptionData.current_period_end
-          ? new Date(subscriptionData.current_period_end * 1000).toISOString()
-          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30日後
+        current_period_start: new Date().toISOString(),
+        current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30日後
       });
 
     if (insertError) {
