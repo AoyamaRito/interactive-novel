@@ -15,22 +15,33 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { characterIds, genre, prompt, aiProvider } = body;
+    const { characterIds, worldIds, genre, prompt, aiProvider } = body;
 
     if (!characterIds || characterIds.length < 1) {
       return NextResponse.json({ error: 'Select at least one character' }, { status: 400 });
     }
 
-    // Get selected profiles
-    const { data: profiles, error: profileError } = await supabase
+    // Get all entity IDs
+    const allEntityIds = [...(characterIds || []), ...(worldIds || [])];
+
+    // Get selected entities
+    const { data: entities, error: entityError } = await supabase
       .from('profiles')
-      .select('id, display_name, bio, avatar_url')
-      .in('id', characterIds)
+      .select('id, display_name, bio, avatar_url, entity_type, metadata')
+      .in('id', allEntityIds)
       .eq('user_id', user.id);
 
-    if (profileError || !profiles || profiles.length === 0) {
-      return NextResponse.json({ error: 'Profiles not found' }, { status: 404 });
+    if (entityError || !entities || entities.length === 0) {
+      return NextResponse.json({ error: 'Entities not found' }, { status: 404 });
     }
+
+    // Separate entities by type
+    const characters = entities.filter(e => !e.entity_type || e.entity_type === 'character');
+    const worlds = entities.filter(e => e.entity_type === 'world');
+    const organizations = entities.filter(e => e.entity_type === 'organization');
+    const items = entities.filter(e => e.entity_type === 'item');
+    const events = entities.filter(e => e.entity_type === 'event');
+    const concepts = entities.filter(e => e.entity_type === 'concept');
 
     // AI configuration
     const openaiKey = process.env.OPENAI_API_KEY;
@@ -56,30 +67,45 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'AI API not configured' }, { status: 500 });
     }
 
-    // Prepare character information
-    const characters = profiles.map(p => ({
-      name: p.display_name,
-      description: p.bio || 'Mysterious character',
-    }));
-
     // Build story generation prompt
-    const systemPrompt = `You are a creative story writer. Create an engaging short story using the given characters.
+    const systemPrompt = `You are a creative story writer. Create an engaging short story using the given elements.
 
 Requirements:
-- Use each character's personality
+- Use each character's personality and role
+- Incorporate the world settings if provided
+- Include organizations, items, events, and concepts naturally
 - Follow the specified genre
 - 800-1200 words
 - Clear story structure
 - Engaging narrative`;
 
-    const userPrompt = `Write a ${genre} story with these characters:
+    let userPrompt = `Write a ${genre} story with these elements:\n\n`;
 
-Characters:
-${characters.map(c => `- ${c.name}: ${c.description}`).join('\n')}
+    if (characters.length > 0) {
+      userPrompt += `Characters:\n${characters.map(c => `- ${c.display_name}: ${c.bio || 'Mysterious character'}`).join('\n')}\n\n`;
+    }
 
-${prompt ? `Additional instructions: ${prompt}` : ''}
+    if (worlds.length > 0) {
+      userPrompt += `World Settings:\n${worlds.map(w => `- ${w.display_name}: ${w.bio || 'A mysterious world'}`).join('\n')}\n\n`;
+    }
 
-Include a title and write an engaging story.`;
+    if (organizations.length > 0) {
+      userPrompt += `Organizations:\n${organizations.map(o => `- ${o.display_name}: ${o.bio || 'A mysterious organization'}`).join('\n')}\n\n`;
+    }
+
+    if (items.length > 0) {
+      userPrompt += `Items:\n${items.map(i => `- ${i.display_name}: ${i.bio || 'A mysterious item'}`).join('\n')}\n\n`;
+    }
+
+    if (events.length > 0) {
+      userPrompt += `Events:\n${events.map(e => `- ${e.display_name}: ${e.bio || 'A significant event'}`).join('\n')}\n\n`;
+    }
+
+    if (concepts.length > 0) {
+      userPrompt += `Concepts:\n${concepts.map(c => `- ${c.display_name}: ${c.bio || 'An abstract concept'}`).join('\n')}\n\n`;
+    }
+
+    userPrompt += `${prompt ? `Additional instructions: ${prompt}\n\n` : ''}Include a title and write an engaging story.`;
 
     try {
       const completion = await openai.chat.completions.create({

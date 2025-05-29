@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
-import type { ProfileWithActive } from '@/types/profile';
+import { Home, Users, Building2, Globe, Package, Calendar, Lightbulb } from 'lucide-react';
+import type { ProfileWithActive, EntityType } from '@/types/profile';
 import { AvatarGenerator } from '@/components/AvatarGenerator';
 import Header from '@/components/layout/Header';
 
@@ -16,11 +16,14 @@ export default function ProfilesPage() {
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showAvatarGenerator, setShowAvatarGenerator] = useState(false);
+  const [selectedEntityType, setSelectedEntityType] = useState<EntityType>('character');
   const [formData, setFormData] = useState({
     display_name: '',
     bio: '',
     avatar_url: '',
     favorite_genres: [] as string[],
+    entity_type: 'character' as EntityType,
+    metadata: {} as Record<string, any>,
   });
 
   useEffect(() => {
@@ -61,6 +64,8 @@ export default function ProfilesPage() {
           bio: '',
           avatar_url: '',
           favorite_genres: [],
+          entity_type: 'character',
+          metadata: {},
         });
       }
     } catch (error) {
@@ -123,18 +128,57 @@ export default function ProfilesPage() {
 
         {showCreateForm && (
           <div className="bg-gray-900 rounded-lg p-6 mb-8 border border-purple-500/20">
-            <h2 className="text-xl font-bold mb-4">新規プロフィール作成</h2>
+            <h2 className="text-xl font-bold mb-4">新規エンティティ作成</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-purple-300 mb-2">
-                  表示名 *
+                  タイプ *
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { type: 'character' as EntityType, label: 'キャラクター', icon: Users },
+                    { type: 'organization' as EntityType, label: '組織', icon: Building2 },
+                    { type: 'world' as EntityType, label: 'ワールド', icon: Globe },
+                    { type: 'item' as EntityType, label: 'アイテム', icon: Package },
+                    { type: 'event' as EntityType, label: 'イベント', icon: Calendar },
+                    { type: 'concept' as EntityType, label: '概念', icon: Lightbulb },
+                  ].map(({ type, label, icon: Icon }) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => {
+                        setSelectedEntityType(type);
+                        setFormData({ ...formData, entity_type: type });
+                      }}
+                      className={`flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        selectedEntityType === type
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-purple-300 mb-2">
+                  名前 *
                 </label>
                 <input
                   type="text"
                   value={formData.display_name}
                   onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
                   className="w-full px-4 py-2 bg-gray-800 border border-purple-500/20 rounded-lg focus:outline-none focus:border-purple-500"
-                  placeholder="ペンネームやニックネーム"
+                  placeholder={
+                    selectedEntityType === 'character' ? '例: 山田太郎' :
+                    selectedEntityType === 'organization' ? '例: 魔法協会' :
+                    selectedEntityType === 'world' ? '例: ファンタジア大陸' :
+                    selectedEntityType === 'item' ? '例: 伝説の剣' :
+                    selectedEntityType === 'event' ? '例: 大戦争' :
+                    '例: 魔法の概念'
+                  }
                 />
               </div>
               <div>
@@ -229,7 +273,18 @@ export default function ProfilesPage() {
                   </div>
                 )}
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold mb-1">{profile.display_name}</h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-xl font-bold">{profile.display_name}</h3>
+                    {profile.entity_type && profile.entity_type !== 'character' && (
+                      <span className="text-xs px-2 py-1 bg-purple-500/20 text-purple-300 rounded">
+                        {profile.entity_type === 'organization' ? '組織' :
+                         profile.entity_type === 'world' ? 'ワールド' :
+                         profile.entity_type === 'item' ? 'アイテム' :
+                         profile.entity_type === 'event' ? 'イベント' :
+                         profile.entity_type === 'concept' ? '概念' : profile.entity_type}
+                      </span>
+                    )}
+                  </div>
                   {profile.bio && (
                     <p className="text-purple-300 text-sm mb-3">{profile.bio}</p>
                   )}

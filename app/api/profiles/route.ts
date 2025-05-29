@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { display_name, avatar_url, bio, favorite_genres } = body;
+    const { display_name, avatar_url, bio, favorite_genres, entity_type, metadata } = body;
 
     if (!display_name) {
       return NextResponse.json({ error: '表示名は必須です' }, { status: 400 });
@@ -72,7 +72,9 @@ export async function POST(request: NextRequest) {
         display_name,
         avatar_url,
         bio,
-        favorite_genres
+        favorite_genres,
+        entity_type: entity_type || 'character',
+        metadata: metadata || {}
       })
       .select()
       .single();
