@@ -104,7 +104,7 @@ export default function CharacterShopPage() {
           ].map((tab: { id: string; label: string; emoji: string }) => (
             <button
               key={tab.id}
-              onClick={() => setSelectedTab(tab.id as any)}
+              onClick={() => setSelectedTab(tab.id as 'characters' | 'gacha' | 'shop')}
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
                 selectedTab === tab.id
                   ? 'bg-purple-500 text-white shadow-lg'
