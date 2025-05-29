@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 import type { ProfileWithActive } from '@/types/profile';
+import { AvatarGenerator } from '@/components/AvatarGenerator';
 
 export default function ProfilesPage() {
   const { user } = useAuth();
@@ -11,6 +12,7 @@ export default function ProfilesPage() {
   const [profiles, setProfiles] = useState<ProfileWithActive[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showAvatarGenerator, setShowAvatarGenerator] = useState(false);
   const [formData, setFormData] = useState({
     display_name: '',
     bio: '',
@@ -131,15 +133,41 @@ export default function ProfilesPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-purple-300 mb-2">
-                  アバターURL
+                  アバター
                 </label>
-                <input
-                  type="url"
-                  value={formData.avatar_url}
-                  onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                  className="w-full px-4 py-2 bg-gray-800 border border-purple-500/20 rounded-lg focus:outline-none focus:border-purple-500"
-                  placeholder="https://example.com/avatar.jpg"
-                />
+                <div className="space-y-2">
+                  {formData.avatar_url && (
+                    <img
+                      src={formData.avatar_url}
+                      alt="アバタープレビュー"
+                      className="w-24 h-24 rounded-full mx-auto"
+                    />
+                  )}
+                  <input
+                    type="url"
+                    value={formData.avatar_url}
+                    onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-800 border border-purple-500/20 rounded-lg focus:outline-none focus:border-purple-500"
+                    placeholder="https://example.com/avatar.jpg"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowAvatarGenerator(!showAvatarGenerator)}
+                    className="w-full px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-colors"
+                  >
+                    {showAvatarGenerator ? 'AI生成を閉じる' : 'AIでアバターを生成'}
+                  </button>
+                  {showAvatarGenerator && (
+                    <div className="mt-4 p-4 bg-gray-850 rounded-lg border border-purple-500/10">
+                      <AvatarGenerator
+                        onGenerated={(imageUrl) => {
+                          setFormData({ ...formData, avatar_url: imageUrl });
+                          setShowAvatarGenerator(false);
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex gap-4">
                 <button
