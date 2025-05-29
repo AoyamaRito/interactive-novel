@@ -3,8 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Home } from 'lucide-react';
 import type { ProfileWithActive } from '@/types/profile';
 import { AvatarGenerator } from '@/components/AvatarGenerator';
+import Header from '@/components/layout/Header';
 
 export default function ProfilesPage() {
   const { user } = useAuth();
@@ -90,9 +93,21 @@ export default function ProfilesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">プロフィール管理</h1>
+    <div className="min-h-screen bg-gray-950 text-white">
+      <Header />
+      <div className="max-w-4xl mx-auto p-8">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">プロフィール管理</h1>
+          <div className="flex gap-4">
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+            >
+              <Home className="h-4 w-4" />
+              ホームに戻る
+            </Link>
+          </div>
+        </div>
 
         <div className="mb-8">
           <button
