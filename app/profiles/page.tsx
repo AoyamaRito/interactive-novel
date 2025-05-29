@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Home, Edit2, Trash2 } from 'lucide-react';
+import { Home } from 'lucide-react';
 import type { ProfileWithActive } from '@/types/profile';
 import { AvatarGenerator } from '@/components/AvatarGenerator';
 import Header from '@/components/layout/Header';
@@ -16,7 +16,6 @@ export default function ProfilesPage() {
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showAvatarGenerator, setShowAvatarGenerator] = useState(false);
-  const [editingProfile, setEditingProfile] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     display_name: '',
     bio: '',
@@ -85,60 +84,8 @@ export default function ProfilesPage() {
     }
   };
 
-  const updateProfile = async () => {
-    if (!editingProfile) return;
 
-    try {
-      const response = await fetch(`/api/profiles/${editingProfile}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
 
-      if (response.ok) {
-        await fetchProfiles();
-        setEditingProfile(null);
-        setFormData({
-          display_name: '',
-          bio: '',
-          avatar_url: '',
-          favorite_genres: [],
-        });
-      }
-    } catch (error) {
-      console.error('プロフィール更新エラー:', error);
-    }
-  };
-
-  const deleteProfile = async (profileId: string) => {
-    if (!confirm('本当にこのプロフィールを削除しますか？')) return;
-
-    try {
-      const response = await fetch(`/api/profiles/${profileId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        await fetchProfiles();
-      } else {
-        const data = await response.json();
-        alert(data.error || '削除に失敗しました');
-      }
-    } catch (error) {
-      console.error('プロフィール削除エラー:', error);
-    }
-  };
-
-  const startEdit = (profile: ProfileWithActive) => {
-    setEditingProfile(profile.id);
-    setFormData({
-      display_name: profile.display_name,
-      bio: profile.bio || '',
-      avatar_url: profile.avatar_url || '',
-      favorite_genres: profile.favorite_genres || [],
-    });
-    setShowCreateForm(false);
-  };
 
   if (loading) {
     return (

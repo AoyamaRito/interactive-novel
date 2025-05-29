@@ -3,9 +3,10 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = await createClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Supabaseの初期化に失敗しました' }, { status: 500 });
@@ -27,7 +28,7 @@ export async function PUT(
     const { data: existingProfile } = await supabase
       .from('profiles')
       .select('user_id')
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('user_id', user.id)
       .single();
 
@@ -45,7 +46,7 @@ export async function PUT(
         favorite_genres,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single();
 
@@ -63,9 +64,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = await createClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Supabaseの初期化に失敗しました' }, { status: 500 });
@@ -90,7 +92,7 @@ export async function DELETE(
     const { data: existingProfile } = await supabase
       .from('profiles')
       .select('user_id')
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('user_id', user.id)
       .single();
 
@@ -105,8 +107,8 @@ export async function DELETE(
       .eq('user_id', user.id)
       .single();
 
-    if (activeProfile?.profile_id === params.id) {
-      const otherProfile = profiles.find(p => p.id !== params.id);
+    if (activeProfile?.profile_id === id) {
+      const otherProfile = profiles.find(p => p.id !== id);
       if (otherProfile) {
         await supabase
           .from('active_profiles')
@@ -119,7 +121,7 @@ export async function DELETE(
     const { error } = await supabase
       .from('profiles')
       .delete()
-      .eq('id', params.id);
+      .eq('id', id);
 
     if (error) {
       console.error('プロフィール削除エラー:', error);
