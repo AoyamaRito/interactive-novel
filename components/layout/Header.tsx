@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
+import { ProfileSwitcher } from '@/components/ProfileSwitcher';
 
 interface HeaderProps {
   onHomeClick?: () => void;
@@ -71,7 +72,7 @@ export default function Header({ onHomeClick }: HeaderProps) {
                       <span className="hidden md:inline font-medium">請求</span>
                     </Link>
                     <div className="flex items-center space-x-3">
-                      <span className="text-gray-300">{user.email}</span>
+                      <ProfileSwitcher />
                       <button
                         onClick={handleLogout}
                         className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors"
