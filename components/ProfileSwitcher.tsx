@@ -60,6 +60,7 @@ export function ProfileSwitcher() {
         className="flex items-center gap-2 p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 transition-colors"
       >
         {activeProfile?.avatar_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img 
             src={activeProfile.avatar_url} 
             alt={activeProfile.display_name}
@@ -92,6 +93,7 @@ export function ProfileSwitcher() {
                 }`}
               >
                 {profile.avatar_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img 
                     src={profile.avatar_url} 
                     alt={profile.display_name}

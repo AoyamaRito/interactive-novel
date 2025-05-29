@@ -101,7 +101,7 @@ export default function CharacterShopPage() {
             { id: 'characters', label: '👥 キャラクター', emoji: '👥' },
             { id: 'gacha', label: '🎰 ガチャ', emoji: '🎰' },
             { id: 'shop', label: '💰 ジェムショップ', emoji: '💰' }
-          ].map(tab => (
+          ].map((tab: { id: string; label: string; emoji: string }) => (
             <button
               key={tab.id}
               onClick={() => setSelectedTab(tab.id as any)}

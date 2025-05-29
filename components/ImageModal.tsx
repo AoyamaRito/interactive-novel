@@ -39,6 +39,7 @@ export function ImageModal({ src, alt, isOpen, onClose }: ImageModalProps) {
           <Download className="h-5 w-5" />
         </button>
         
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
           alt={alt}
@@ -73,6 +74,7 @@ export function ExpandableImage({
   return (
     <>
       <div className="relative group cursor-pointer">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
           alt={alt}
