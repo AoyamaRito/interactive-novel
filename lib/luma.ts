@@ -26,6 +26,7 @@ export class LumaClient {
   }
 
   async generateImage(prompt: string, aspectRatio: '1:1' | '16:9' | '9:16' = '1:1'): Promise<LumaGenerationResponse> {
+    const model = process.env.LUMA_MODEL || 'photon-flash-1';
     const response = await fetch(`${this.baseUrl}/generations/image`, {
       method: 'POST',
       headers: {
@@ -36,7 +37,7 @@ export class LumaClient {
       body: JSON.stringify({
         prompt,
         aspect_ratio: aspectRatio,
-        model: 'photon-flash-1',
+        model,
       }),
     });
 

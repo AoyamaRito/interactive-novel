@@ -28,6 +28,7 @@ const PROMPT_SUGGESTIONS = [
 export function AvatarGenerator({ onGenerated }: AvatarGeneratorProps) {
   const [prompt, setPrompt] = useState('');
   const [style, setStyle] = useState('アニメ風');
+  const [aiProvider, setAiProvider] = useState<'openai' | 'xai' | undefined>(undefined);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
@@ -45,7 +46,7 @@ export function AvatarGenerator({ onGenerated }: AvatarGeneratorProps) {
       const response = await fetch('/api/avatar/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, style }),
+        body: JSON.stringify({ prompt, style, aiProvider }),
       });
 
       const data = await response.json();
@@ -83,6 +84,44 @@ export function AvatarGenerator({ onGenerated }: AvatarGeneratorProps) {
               {s.label}
             </button>
           ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-purple-300 mb-2">
+          AIプロンプト強化 (オプション)
+        </label>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setAiProvider(undefined)}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              aiProvider === undefined
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            }`}
+          >
+            使用しない
+          </button>
+          <button
+            onClick={() => setAiProvider('openai')}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              aiProvider === 'openai'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            }`}
+          >
+            GPT-4o-mini
+          </button>
+          <button
+            onClick={() => setAiProvider('xai')}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              aiProvider === 'xai'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            }`}
+          >
+            Grok-3
+          </button>
         </div>
       </div>
 

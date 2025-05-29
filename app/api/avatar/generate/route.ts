@@ -1,6 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { LumaClient } from '@/lib/luma';
+import { createPromptEnhancer } from '@/lib/ai/prompt-enhancer';
+
+// プロンプトを強化する関数
+function enhancePrompt(userPrompt: string, style: string): string {
+  // スタイルに応じた修飾語を追加
+  const styleModifiers: Record<string, string> = {
+    'アニメ風': 'anime style, cel shaded, vibrant colors',
+    'リアリスティック': 'photorealistic, detailed textures, natural lighting',
+    'ファンタジー': 'fantasy art style, magical atmosphere, ethereal',
+    'サイバーパンク': 'cyberpunk aesthetic, neon colors, futuristic',
+    'ミニマリスト': 'minimalist design, clean lines, simple shapes',
+  };
+
+  const styleModifier = styleModifiers[style] || style;
+  
+  // プロンプトの強化
+  const enhancedPrompt = `
+    ${styleModifier} portrait avatar,
+    ${userPrompt},
+    high quality, ultra detailed, sharp focus,
+    professional lighting, suitable for profile picture,
+    centered composition, clean background,
+    8k resolution, masterpiece
+  `.trim().replace(/\s+/g, ' ');
+
+  return enhancedPrompt;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,7 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { prompt, style = 'アニメ風' } = body;
+    const { prompt, style = 'アニメ風', aiProvider } = body;
 
     if (!prompt) {
       return NextResponse.json({ error: 'プロンプトは必須です' }, { status: 400 });
@@ -26,14 +53,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Luma APIキーが設定されていません' }, { status: 500 });
     }
 
-    // プロンプトを構築
-    const fullPrompt = `${style} portrait avatar, ${prompt}, high quality, detailed, suitable for profile picture`;
+    // プロンプトを強化
+    let enhancedPrompt: string;
+    const promptEnhancer = createPromptEnhancer(aiProvider as 'openai' | 'xai' | undefined);
+    
+    if (promptEnhancer) {
+      // AIを使用してプロンプトを強化
+      enhancedPrompt = await promptEnhancer.enhanceAvatarPrompt(prompt, style);
+    } else {
+      // フォールバック：基本的な強化
+      enhancedPrompt = enhancePrompt(prompt, style);
+    }
 
     // Luma APIクライアントを初期化
     const luma = new LumaClient(lumaApiKey);
 
     // 画像生成を開始
-    const generation = await luma.generateImage(fullPrompt, '1:1');
+    const generation = await luma.generateImage(enhancedPrompt, '1:1');
 
     // 生成完了を待つ
     const completed = await luma.waitForCompletion(generation.id);
