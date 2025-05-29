@@ -49,9 +49,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         // 認証状態の変更を監視
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          (event, session) => {
+          async (event, session) => {
             console.log('Auth state changed:', event);
             setUser(session?.user ?? null);
+            
+            // ユーザーがログインした場合、プロフィールを初期化
+            if (event === 'SIGNED_IN' && session?.user) {
+              try {
+                await fetch('/api/profiles/initialize', {
+                  method: 'POST',
+                });
+              } catch (error) {
+                console.error('プロフィール初期化エラー:', error);
+              }
+            }
           }
         );
 

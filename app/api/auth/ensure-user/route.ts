@@ -59,6 +59,31 @@ export async function POST() {
         );
       }
 
+      // デフォルトプロフィールを作成
+      const displayName = user.email?.split('@')[0] || 'ユーザー';
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          user_id: user.id,
+          display_name: displayName,
+          bio: '琴葉へようこそ！',
+          favorite_genres: [],
+        })
+        .select()
+        .single();
+
+      if (profileError) {
+        console.error('Profile creation error:', profileError);
+      } else if (profile) {
+        // アクティブプロフィールとして設定
+        await supabase
+          .from('active_profiles')
+          .insert({
+            user_id: user.id,
+            profile_id: profile.id,
+          });
+      }
+
       return NextResponse.json({ 
         message: 'ユーザーを作成しました',
         user: newUser 
