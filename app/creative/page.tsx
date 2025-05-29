@@ -11,9 +11,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'story',
     title: 'Story Creator',
-    titleJa: 'iž¯ê¨¤¿ü',
+    titleJa: 'Story Creator',
     description: 'Create stories using your characters',
-    descriptionJa: '\W_­ãé¯¿ü’cfiž’',
+    descriptionJa: 'Create stories using your characters',
     icon: PenTool,
     href: '/story-creator',
     color: 'from-purple-500 to-pink-500',
@@ -22,9 +22,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'illustration',
     title: 'Illustration',
-    titleJa: '¤é¹È',
+    titleJa: 'Illustration',
     description: 'Generate illustrations for your stories',
-    descriptionJa: 'ižn¤é¹È’',
+    descriptionJa: 'Generate illustrations for your stories',
     icon: Palette,
     href: '/creative/illustration',
     color: 'from-blue-500 to-cyan-500',
@@ -33,9 +33,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'audiobook',
     title: 'Audiobook',
-    titleJa: 'ªüÇ£ªÖÃ¯',
+    titleJa: 'Audiobook',
     description: 'Convert stories to audio',
-    descriptionJa: 'iž’óð',
+    descriptionJa: 'Convert stories to audio',
     icon: Music,
     href: '/creative/audiobook',
     color: 'from-green-500 to-emerald-500',
@@ -44,9 +44,9 @@ const CREATIVE_TOOLS = [
   {
     id: 'animation',
     title: 'Animation',
-    titleJa: '¢Ëáü·çó',
+    titleJa: 'Animation',
     description: 'Create animated stories',
-    descriptionJa: 'iž’¢Ëáü·çó',
+    descriptionJa: 'Create animated stories',
     icon: Video,
     href: '/creative/animation',
     color: 'from-orange-500 to-red-500',
@@ -76,7 +76,7 @@ export default function CreativePage() {
               Creative Studio
             </h1>
             <p className="text-xl text-purple-300">
-              AI’;(Wfu „j³óÆóÄ’\
+              Create amazing content with AI
             </p>
           </div>
 
@@ -130,7 +130,7 @@ export default function CreativePage() {
                       
                       {tool.available && (
                         <div className="mt-6 flex items-center text-purple-400 group-hover:text-purple-300 transition-colors">
-                          <span className="text-sm font-medium">cf‹</span>
+                          <span className="text-sm font-medium">Get Started</span>
                           <BookOpen className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         </div>
                       )}
@@ -143,20 +143,20 @@ export default function CreativePage() {
 
           <div className="mt-12 p-6 bg-purple-900/20 rounded-lg border border-purple-500/20">
             <h2 className="text-xl font-semibold text-purple-300 mb-3">
-              ÊŒn_ýý ˆš
+              Upcoming Features
             </h2>
             <ul className="space-y-2 text-gray-300">
               <li className="flex items-center gap-2">
-                <span className="text-purple-400">"</span>
-                ¤é¹È: ižn·üó’Ó¸å¢ë
+                <span className="text-purple-400">â€¢</span>
+                Illustration: Visualize your story scenes
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-purple-400">"</span>
-                ªüÇ£ªÖÃ¯: ×ínð*AIkˆ‹­
+                <span className="text-purple-400">â€¢</span>
+                Audiobook: Professional AI narration
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-purple-400">"</span>
-                ¢Ëáü·çó: ­ãé¯¿üLÕOíè¢Ëá
+                <span className="text-purple-400">â€¢</span>
+                Animation: Bring characters to life
               </li>
             </ul>
           </div>
