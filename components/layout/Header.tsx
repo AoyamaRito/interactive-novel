@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard } from 'lucide-react';
+import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard, PenTool } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { ProfileSwitcher } from '@/components/ProfileSwitcher';
 
@@ -81,6 +81,13 @@ export default function Header({ onHomeClick }: HeaderProps) {
                         <span className="hidden md:inline font-medium">プロフィール</span>
                       </Link>
                     )}
+                    <Link
+                      href="/story-creator"
+                      className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                    >
+                      <PenTool className="h-5 w-5" />
+                      <span className="hidden md:inline font-medium">物語作成</span>
+                    </Link>
                     <div className="flex items-center space-x-3">
                       {pathname !== '/profiles' && <ProfileSwitcher />}
                       <button
