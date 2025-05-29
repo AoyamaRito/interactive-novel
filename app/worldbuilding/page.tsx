@@ -4,10 +4,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { 
-  MessageCircle, 
   Send, 
   Sparkles, 
-  ChevronRight,
   Globe,
   Users,
   Building2,
@@ -30,7 +28,7 @@ interface Question {
 }
 
 const ENTITY_CONFIGS: Record<EntityType, {
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   label: string;
   questions: Question[];
 }> = {
@@ -178,7 +176,7 @@ export default function WorldBuildingPage() {
     setIsCreating(true);
     
     // Extract metadata from answers
-    const metadata: Record<string, any> = {};
+    const metadata: Record<string, unknown> = {};
     let displayName = '';
     let bio = '';
     
