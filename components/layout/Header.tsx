@@ -71,6 +71,13 @@ export default function Header({ onHomeClick }: HeaderProps) {
                       <CreditCard className="h-5 w-5" />
                       <span className="hidden md:inline font-medium">請求</span>
                     </Link>
+                    <Link
+                      href="/profiles"
+                      className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                    >
+                      <Users className="h-5 w-5" />
+                      <span className="hidden md:inline font-medium">プロフィール</span>
+                    </Link>
                     <div className="flex items-center space-x-3">
                       <ProfileSwitcher />
                       <button

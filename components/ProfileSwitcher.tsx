@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
 import type { ProfileWithActive } from '@/types/profile';
 
@@ -114,12 +115,13 @@ export function ProfileSwitcher() {
             ))}
           </div>
           <div className="border-t border-purple-500/20 p-2">
-            <a
+            <Link
               href="/profiles"
               className="w-full block text-center py-2 text-purple-300 hover:text-purple-200 text-sm"
+              onClick={() => setIsOpen(false)}
             >
               プロフィール管理
-            </a>
+            </Link>
           </div>
         </div>
       )}
