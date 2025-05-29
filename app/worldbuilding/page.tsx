@@ -182,10 +182,13 @@ export default function WorldBuildingPage() {
         ]);
       }, 500);
     } else {
-      // All questions answered
+      // All questions answered - save the last answer before proceeding
+      const finalAnswers = { ...answers, [currentQuestion.field]: inputValue };
+      setAnswers(finalAnswers);
+      
       setTimeout(() => {
         // Generate the image prompt based on collected information
-        const autoPrompt = generateImagePrompt(selectedType, { ...answers, [currentQuestion.field]: inputValue });
+        const autoPrompt = generateImagePrompt(selectedType, finalAnswers);
         setGeneratedPrompt(autoPrompt);
         
         setChatHistory(prev => [...prev, 
@@ -349,6 +352,8 @@ export default function WorldBuildingPage() {
     let displayName = '';
     let bio = '';
     
+    console.log('Creating entity with answers:', answers); // デバッグ用
+    
     Object.entries(answers).forEach(([field, value]) => {
       if (field === 'display_name') {
         displayName = value;
@@ -360,25 +365,34 @@ export default function WorldBuildingPage() {
       }
     });
     
+    const requestData = {
+      display_name: displayName,
+      bio,
+      avatar_url: avatarUrl,
+      entity_type: selectedType,
+      metadata,
+      favorite_genres: [],
+    };
+    
+    console.log('Sending data to API:', requestData); // デバッグ用
+    
     try {
       const response = await fetch('/api/profiles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          display_name: displayName,
-          bio,
-          avatar_url: avatarUrl,
-          entity_type: selectedType,
-          metadata,
-          favorite_genres: [],
-        }),
+        body: JSON.stringify(requestData),
       });
       
       if (response.ok) {
         router.push('/profiles');
+      } else {
+        const errorData = await response.json();
+        console.error('Entity creation failed:', errorData);
+        alert(`保存に失敗しました: ${errorData.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Entity creation error:', error);
+      alert('保存中にエラーが発生しました');
     } finally {
       setIsCreating(false);
     }
