@@ -128,7 +128,7 @@ Requirements:
       return NextResponse.json({
         title,
         content,
-        characters: profiles,
+        characters: entities,
         genre,
       });
     } catch (error) {
