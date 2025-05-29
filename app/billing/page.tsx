@@ -83,6 +83,7 @@ export default function BillingPage() {
   };
 
   const handleManageBilling = async () => {
+    console.log('Managing billing for user:', user?.id);
     setActionLoading(true);
 
     try {
@@ -94,11 +95,15 @@ export default function BillingPage() {
         },
       });
 
+      console.log('Portal response status:', response.status);
       const data = await response.json();
+      console.log('Portal response data:', data);
 
-      if (response.ok) {
+      if (response.ok && data.url) {
+        console.log('Redirecting to:', data.url);
         window.location.href = data.url;
       } else {
+        console.error('Portal creation failed:', data);
         setMessage({ type: 'error', text: data.error || '請求ポータルの作成に失敗しました' });
       }
     } catch {
