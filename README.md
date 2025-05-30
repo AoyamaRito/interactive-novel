@@ -37,9 +37,56 @@ npm install
 
 ### 3. データベースの設定
 
-Supabaseプロジェクトで`supabase/schema.sql`のSQLを実行してください。
+Supabaseプロジェクトで以下のSQLを実行してください：
 
-### 4. 開発サーバーの起動
+#### 新規セットアップの場合：
+
+```sql
+-- supabase/schema-simple.sql の内容を実行
+```
+
+#### 既存のデータベースをリセットする場合（注意：データが削除されます）：
+
+```sql
+-- 1. supabase/reset-and-setup.sql を実行
+-- 2. supabase/schema-simple.sql を実行
+```
+
+#### テーブル構成：
+
+- `profiles` - ユーザープロフィール
+- `users` - 課金情報
+- `generated_content` - 生成されたコンテンツ（オプション）
+- `usage_logs` - 使用量ログ（オプション）
+
+### 4. Stripe Webhookの設定
+
+#### ローカル開発の場合：
+
+```bash
+# Stripe CLIをインストール
+brew install stripe/stripe-cli/stripe
+
+# ログイン
+stripe login
+
+# Webhookをフォワード（別ターミナルで実行）
+stripe listen --forward-to localhost:3000/api/stripe/webhook
+
+# 表示されたSigning secretを STRIPE_WEBHOOK_SECRET に設定
+```
+
+#### 本番環境の場合：
+
+1. StripeダッシュボードでWebhookエンドポイントを作成
+2. エンドポイントURL: `https://your-domain.com/api/stripe/webhook`
+3. イベントを選択:
+   - `checkout.session.completed`
+   - `customer.subscription.deleted`
+   - `customer.subscription.updated`
+4. Signing secretを環境変数 `STRIPE_WEBHOOK_SECRET` に設定
+
+### 5. 開発サーバーの起動
 
 ```bash
 npm run dev
