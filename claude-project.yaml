@@ -1,41 +1,362 @@
-project_name: interactive_novel
-description: Claude is allowed to build and improve this Next.js web application.
+project_name: web_system_supabase_integration
+description: Claude is allowed to build, monitor, and improve this Next.js web application with full Supabase backend integration including SQL execution.
+
 permissions:
   filesystem:
     allow:
-      - app/**
-      - pages/**
-      - components/**
-      - public/**
-      - styles/**
-      - lib/**
-      - next.config.js
-      - tsconfig.json
-      - package.json
-      - .env.local
+      # Next.js アプリケーション構造
+      - app/**              # App Router (Next.js 13+)
+      - pages/**            # Pages Router (legacy support)
+      - components/**       # 再利用可能コンポーネント
+      - lib/**             # ライブラリとユーティリティ
+      - public/**          # 静的アセット
+      - styles/**          # スタイリング
+      - hooks/**           # カスタムReactフック
+      - utils/**           # ユーティリティ関数
+      
+      # 設定ファイル
+      - next.config.js     # Next.js設定
+      - tsconfig.json      # TypeScript設定
+      - tailwind.config.js # Tailwind CSS設定
+      - package.json       # 依存関係
+      - package-lock.json  # ロックファイル
+      - .eslintrc.json     # ESLint設定
+      - .prettierrc        # Prettier設定
+      
+      # Supabase設定・データベース
+      - supabase/**        # Supabase設定・マイグレーション
+      - types/database.ts  # Supabase型定義
+      - sql/**            # SQLファイル・クエリ
+      - migrations/**      # データベースマイグレーション
+      - seeders/**         # データシード
+      - schemas/**         # データベーススキーマ
+      - functions/**       # Supabase Edge Functions
+      
+      # 環境・認証
+      - .env.local         # ローカル環境変数
+      - .env.example       # 環境変数テンプレート
+      - auth/**           # 認証関連
+      - middleware/**     # ミドルウェア
+      - policies/**       # RLS ポリシー
+      
+      # デプロイ設定
+      - railway.json       # Railway設定
+      - vercel.json        # Vercel設定
+      - Dockerfile         # Docker設定
+      - docker-compose.yml # Docker Compose
+      
+      # ログ・監視
+      - logs/**            # ログファイル
+      - monitoring/**      # 監視設定
+      - scripts/**         # 自動化スクリプト
+      - docs/**           # ドキュメント
+    
     deny:
-      - node_modules/**
-      - .next/**
-      - .git/**
+      - node_modules/**    # NPMパッケージ
+      - .next/**          # Next.jsビルド出力
+      - .git/**           # Gitリポジトリ
+      - dist/**           # ビルド出力
+      - coverage/**       # テストカバレッジ
+      - .railway/**       # Railway内部ファイル
+      - .vercel/**        # Vercel内部ファイル
+
   operations:
     allow:
-      - modify_code
-      - create_files
-      - delete_files
-      - refactor
-      - install_dependencies
-      - configure_env
-      - write_documentation
+      # 開発作業
+      - modify_code          # コード変更
+      - create_files         # ファイル作成
+      - delete_files         # ファイル削除
+      - refactor            # リファクタリング
+      - install_dependencies # 依存関係インストール
+      - configure_env       # 環境設定
+      - write_documentation # ドキュメント作成
+      
+      # Supabase統合
+      - supabase_init       # Supabaseプロジェクト初期化
+      - supabase_login      # Supabase認証
+      - supabase_link       # プロジェクトリンク
+      - supabase_start      # ローカル開発開始
+      - supabase_stop       # ローカル開発停止
+      - supabase_status     # ステータス確認
+      - supabase_reset      # データベースリセット
+      
+      # データベース操作
+      - execute_sql         # SQL実行
+      - create_migration    # マイグレーション作成
+      - run_migration       # マイグレーション実行
+      - rollback_migration  # マイグレーション巻き戻し
+      - generate_types      # TypeScript型生成
+      - seed_database       # データシード実行
+      - backup_database     # データベースバックアップ
+      - restore_database    # データベース復元
+      
+      # Edge Functions
+      - create_function     # Edge Function作成
+      - deploy_function     # Edge Function デプロイ
+      - invoke_function     # Edge Function 実行
+      - logs_function       # Edge Function ログ
+      
+      # ストレージ
+      - create_bucket       # ストレージバケット作成
+      - upload_file         # ファイルアップロード
+      - download_file       # ファイルダウンロード
+      - delete_file         # ファイル削除
+      - list_files          # ファイル一覧
+      
+      # 認証・セキュリティ
+      - manage_users        # ユーザー管理
+      - update_policies     # RLSポリシー更新
+      - manage_roles        # ロール管理
+      - configure_auth      # 認証設定
+      
+      # デプロイ・監視
+      - railway_deploy      # Railway デプロイ
+      - vercel_deploy       # Vercel デプロイ
+      - monitor_deployment  # デプロイメント監視
+      - analyze_errors      # エラー分析
+      - generate_reports    # レポート生成
+      - auto_fix_suggestions # 自動修正提案
+
+  database:
+    allow:
+      # DDL (Data Definition Language)
+      - CREATE_TABLE        # テーブル作成
+      - ALTER_TABLE         # テーブル変更
+      - DROP_TABLE          # テーブル削除
+      - CREATE_INDEX        # インデックス作成
+      - DROP_INDEX          # インデックス削除
+      - CREATE_VIEW         # ビュー作成
+      - DROP_VIEW           # ビュー削除
+      - CREATE_FUNCTION     # 関数作成
+      - DROP_FUNCTION       # 関数削除
+      - CREATE_TRIGGER      # トリガー作成
+      - DROP_TRIGGER        # トリガー削除
+      
+      # DML (Data Manipulation Language)
+      - SELECT              # データ選択
+      - INSERT              # データ挿入
+      - UPDATE              # データ更新
+      - DELETE              # データ削除
+      - UPSERT              # データアップサート
+      
+      # RLS (Row Level Security)
+      - CREATE_POLICY       # ポリシー作成
+      - ALTER_POLICY        # ポリシー変更
+      - DROP_POLICY         # ポリシー削除
+      - ENABLE_RLS          # RLS有効化
+      - DISABLE_RLS         # RLS無効化
+      
+      # Extensions & Types
+      - CREATE_EXTENSION    # 拡張機能作成
+      - CREATE_TYPE         # カスタム型作成
+      - CREATE_ENUM         # ENUM型作成
+      
+      # Supabase特有
+      - GRANT_USAGE         # 使用権限付与
+      - REVOKE_USAGE        # 使用権限取り消し
+      - ALTER_DEFAULT_PRIVILEGES # デフォルト権限変更
+    
+    deny:
+      # 危険な操作
+      - DROP_DATABASE       # データベース削除
+      - DROP_SCHEMA         # スキーマ削除
+      - TRUNCATE_ALL        # 全データ削除
+      - ALTER_SYSTEM        # システム設定変更
+      - CREATE_USER         # ユーザー作成（Supabase管理外）
+
 goals:
-  - Build a modern, responsive, SEO-friendly web app with Next.js
-  - Support SSR and API Routes as needed
-  - Use TypeScript for all code
-  - Follow clean architecture and reusable components
-  - Create test cases if relevant
+  primary:
+    - Build a modern, responsive, SEO-friendly web app with Next.js 14
+    - Integrate comprehensive Supabase backend with full SQL capabilities
+    - Implement real-time features using Supabase subscriptions
+    - Support SSR/SSG with Supabase data fetching
+    - Use TypeScript for all code with auto-generated Supabase types
+  
+  development:
+    - Follow clean architecture with Supabase integration patterns
+    - Create comprehensive test cases for database operations
+    - Implement proper error boundaries and logging
+    - Optimize database queries and implement caching
+    - Ensure data security with Row Level Security (RLS)
+  
+  database:
+    - Design efficient database schema with proper relationships
+    - Implement secure RLS policies for data access control
+    - Create reusable database functions and triggers
+    - Set up automated database migrations and versioning
+    - Implement data validation and constraints
+  
+  deployment:
+    - Zero-downtime deployments with database migrations
+    - Automated database backup and recovery procedures
+    - Environment-specific Supabase configuration
+    - Edge Function deployment and monitoring
+    - CDN optimization for Supabase Storage assets
+  
+  monitoring:
+    - Real-time database performance monitoring
+    - Query optimization and slow query detection
+    - User authentication and authorization tracking
+    - Storage usage and file access monitoring
+    - Edge Function performance and error tracking
+
 context:
-  - Next.js 14
-  - TypeScript
-  - Tailwind CSS (if used)
-  - ESLint + Prettier
-  - API Routes under `app/api/` or `pages/api/`
-  - `.env.local` for secrets
+  frontend:
+    - Next.js 14 (App Router + Pages Router support)
+    - TypeScript (strict mode with Supabase types)
+    - Tailwind CSS for styling
+    - React 18 with concurrent features
+    - Supabase client-side integration
+    - Real-time subscriptions
+  
+  backend:
+    - Supabase PostgreSQL database
+    - Row Level Security (RLS) policies
+    - Supabase Auth for authentication
+    - Edge Functions for serverless logic
+    - Supabase Storage for file management
+    - Real-time subscriptions
+  
+  database:
+    - PostgreSQL 15+ with Supabase extensions
+    - Auto-generated TypeScript types
+    - Migration-based schema management
+    - Advanced SQL features (CTEs, Window functions, etc.)
+    - Full-text search capabilities
+    - JSON/JSONB support
+  
+  deployment:
+    - Railway/Vercel for frontend hosting
+    - Supabase managed backend
+    - Environment-based configuration
+    - Automated CI/CD with database migrations
+  
+  development_tools:
+    - Supabase CLI for local development
+    - ESLint + Prettier for code quality
+    - Jest + Testing Library for testing
+    - Supabase local development environment
+    - TypeScript strict mode with Supabase types
+  
+  environment:
+    - .env.local for development secrets
+    - Supabase environment variables
+    - Separate development/staging/production environments
+
+# Supabase統合設定
+supabase_integration:
+  connection:
+    url: "${SUPABASE_URL}"
+    anon_key: "${SUPABASE_ANON_KEY}"
+    service_role_key: "${SUPABASE_SERVICE_ROLE_KEY}"
+    
+  local_development:
+    start_command: "supabase start"
+    stop_command: "supabase stop"
+    reset_command: "supabase db reset"
+    status_command: "supabase status"
+    
+  database_operations:
+    migration_commands:
+      - "supabase migration new [name]"
+      - "supabase db push"
+      - "supabase db pull"
+      - "supabase db reset"
+    
+    type_generation:
+      - "supabase gen types typescript --local > types/database.ts"
+      - "supabase gen types typescript --project-id [id] > types/database.ts"
+    
+    sql_execution:
+      local: "supabase db sql --file [file.sql]"
+      remote: "supabase db sql --project-id [id] --file [file.sql]"
+      interactive: "supabase db sql --interactive"
+  
+  edge_functions:
+    commands:
+      - "supabase functions new [name]"
+      - "supabase functions deploy [name]"
+      - "supabase functions invoke [name]"
+      - "supabase functions logs [name]"
+  
+  storage:
+    bucket_operations:
+      - "Create and manage storage buckets"
+      - "Upload/download files programmatically"
+      - "Set bucket policies and permissions"
+      - "Image transformation and optimization"
+  
+  auth:
+    providers:
+      - "Email/Password authentication"
+      - "OAuth providers (Google, GitHub, etc.)"
+      - "Magic link authentication"
+      - "Phone/SMS authentication"
+    
+    policies:
+      - "Row Level Security policy management"
+      - "User role and permission management"
+      - "Session management and refresh tokens"
+  
+  real_time:
+    subscriptions:
+      - "Table change subscriptions"
+      - "Row-level change notifications"
+      - "Presence and broadcast features"
+      - "Channel-based real-time communication"
+
+# SQL実行パターン
+sql_patterns:
+  common_queries:
+    - "SELECT queries with joins and filters"
+    - "INSERT with conflict handling (UPSERT)"
+    - "UPDATE with complex conditions"
+    - "DELETE with cascading effects"
+    - "Aggregate queries with GROUP BY"
+    - "Window functions for analytics"
+    - "Common Table Expressions (CTEs)"
+    - "Full-text search queries"
+  
+  schema_management:
+    - "CREATE TABLE with constraints"
+    - "ALTER TABLE for schema changes"
+    - "CREATE INDEX for performance"
+    - "CREATE FUNCTION for reusable logic"
+    - "CREATE TRIGGER for automation"
+    - "CREATE VIEW for data abstraction"
+  
+  security:
+    - "RLS policy creation and testing"
+    - "User permission management"
+    - "Data access audit queries"
+    - "Security policy validation"
+  
+  optimization:
+    - "EXPLAIN ANALYZE for query performance"
+    - "Index usage analysis"
+    - "Query optimization techniques"
+    - "Database statistics and monitoring"
+
+# 自動化スクリプト
+automation:
+  database:
+    backup: "supabase db dump --file backup-$(date +%Y%m%d).sql"
+    restore: "supabase db sql --file [backup-file.sql]"
+    health_check: "supabase status && supabase db sql --interactive"
+  
+  deployment:
+    pre_deploy:
+      - "npm run lint"
+      - "npm run type-check" 
+      - "npm test"
+      - "supabase db push --dry-run"
+    
+    deploy:
+      - "supabase db push"
+      - "supabase functions deploy --no-verify-jwt"
+      - "supabase gen types typescript > types/database.ts"
+    
+    post_deploy:
+      - "Health endpoint verification"
+      - "Database connection test"
+      - "Edge function smoke tests"

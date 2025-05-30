@@ -39,3 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Railway環境変数ファイル（機密情報）
+railway-env*.txt
