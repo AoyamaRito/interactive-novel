@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Sparkles, Bot, Image as ImageIcon, CreditCard, Shield, Zap, ArrowRight } from 'lucide-react'
+import { Sparkles, Bot, Image as ImageIcon, CreditCard } from 'lucide-react'
 
 export default function Home() {
   return (

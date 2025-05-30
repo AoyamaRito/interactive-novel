@@ -20,7 +20,7 @@ export function createClient(): SupabaseClient | null {
   // Validate URL
   try {
     new URL(supabaseUrl);
-  } catch (error) {
+  } catch {
     if (process.env.NODE_ENV === 'development') {
       console.error('Invalid Supabase URL');
     }
@@ -29,7 +29,7 @@ export function createClient(): SupabaseClient | null {
 
   try {
     return createBrowserClient(supabaseUrl, supabaseAnonKey);
-  } catch (error) {
+  } catch {
     if (process.env.NODE_ENV === 'development') {
       console.error('Failed to create Supabase client');
     }

@@ -6,11 +6,13 @@ import { User } from '@supabase/supabase-js';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
+  signOut: async () => {},
 });
 
 export function useAuth() {
@@ -24,6 +26,14 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const signOut = async () => {
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+  };
 
   useEffect(() => {
     const initAuth = async () => {
@@ -53,15 +63,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             console.log('Auth state changed:', event);
             setUser(session?.user ?? null);
             
-            // ユーザーがログインした場合、プロフィールを初期化
+            // ユーザーがログインした場合の処理
             if (event === 'SIGNED_IN' && session?.user) {
-              try {
-                await fetch('/api/profiles/initialize', {
-                  method: 'POST',
-                });
-              } catch (error) {
-                console.error('プロフィール初期化エラー:', error);
-              }
+              // 必要に応じて初期化処理を追加
             }
           }
         );
@@ -80,7 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   );

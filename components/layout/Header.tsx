@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { PenSquare, User, Home, Menu, X, LogOut, CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 
 export default function Header() {
   const { user, signOut } = useAuth();
@@ -15,8 +15,11 @@ export default function Header() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUserId(user?.id || null);
+      const supabase = createClient();
+      if (supabase) {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUserId(user?.id || null);
+      }
     };
     
     checkAuth();

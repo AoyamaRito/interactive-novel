@@ -8,6 +8,13 @@ export async function withAuth(
   try {
     const supabase = await createClient();
     
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Service unavailable' },
+        { status: 503 }
+      );
+    }
+    
     // Authorizationヘッダーからトークンを取得
     const authHeader = request.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
