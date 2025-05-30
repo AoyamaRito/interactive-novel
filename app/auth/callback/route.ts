@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 // 許可されたリダイレクト先を定義
 const ALLOWED_ORIGINS = [
   process.env.NEXT_PUBLIC_APP_URL,
+  'https://interactive-novel-production.up.railway.app',
   'http://localhost:3000',
   'http://localhost:3001'
 ].filter(Boolean);
