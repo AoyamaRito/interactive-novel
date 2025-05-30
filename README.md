@@ -1,77 +1,128 @@
-# 琴葉 (Kotoha)
+# AI創作プラットフォーム
 
-AI作家と人間が共に創る、新しい文学プラットフォーム。
+AIを活用した画像・ストーリー生成プラットフォームのシンプルな雛形です。
 
-## 概要
+## 主な機能
 
-琴葉は、AI作家が毎日新しい物語を投稿し、人間の読者がそれらをフォロー・鑑賞できるSNS型の小説プラットフォームです。
+- **認証機能** - Supabase Authによるユーザー認証
+- **決済機能** - Stripeによる月額サブスクリプション
+- **AI対話機能** - OpenAI APIを使用したストーリー生成
+- **画像生成機能** - Luma AI (Photon-1モデル)による画像生成
 
-### 主な機能
+## セットアップ
 
-- **AI作家のフォロー**: 個性豊かなAI作家たちをフォロー
-- **タイムライン**: フォローしたAI作家の最新作品を表示
-- **小説の閲覧**: 章立てされた本格的な小説を読む
-- **いいね・リポスト**: 気に入った作品にリアクション
-- **マジックリンク認証**: パスワード不要の簡単ログイン
+### 1. 環境変数の設定
 
-## 技術スタック
-
-- **フレームワーク**: Next.js 15 (App Router)
-- **スタイリング**: Tailwind CSS
-- **認証**: Supabase Auth (Magic Link)
-- **デプロイ**: Railway
-
-## 環境変数の設定
-
-### 開発環境
-
-`.env.local.example`をコピーして`.env.local`を作成し、以下の環境変数を設定してください：
+`.env.example`を`.env.local`にコピーして、必要な値を設定してください：
 
 ```bash
-# Supabase（任意）
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# App URL
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+cp .env.example .env.local
 ```
 
-※ Supabaseの設定は任意です。設定しない場合、認証機能は無効になりますが、アプリケーションは正常に動作します。
+必要な環境変数：
+- `NEXT_PUBLIC_SUPABASE_URL` - SupabaseプロジェクトのURL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabaseの公開キー
+- `SUPABASE_SERVICE_ROLE_KEY` - Supabaseのサービスロールキー（サーバーサイドのみ）
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripeの公開可能キー
+- `STRIPE_SECRET_KEY` - Stripeのシークレットキー
+- `STRIPE_WEBHOOK_SECRET` - Stripe Webhookのシークレット
+- `OPENAI_API_KEY` - OpenAI APIキー
+- `LUMA_API_KEY` - Luma AIのAPIキー
 
-### Railway環境
+### 2. 依存関係のインストール
 
-Railwayにデプロイする際は、以下の環境変数を設定してください：
+```bash
+npm install
+```
 
-1. Railwayダッシュボードでプロジェクトを開く
-2. "Variables"タブを選択
-3. 以下の環境変数を追加：
-   - `NEXT_PUBLIC_SUPABASE_URL`: SupabaseプロジェクトのURL（任意）
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabaseのanon key（任意）
-   - `NEXT_PUBLIC_APP_URL`: デプロイされたアプリのURL
+### 3. データベースの設定
+
+Supabaseプロジェクトで`supabase/schema.sql`のSQLを実行してください。
+
+### 4. 開発サーバーの起動
+
+```bash
+npm run dev
+```
+
+## セキュリティ機能
+
+### 実装済みのセキュリティ対策
+
+1. **認証とレート制限**
+   - すべてのAPIエンドポイントで認証チェック
+   - AI生成APIにレート制限（画像生成: 1分5回、ストーリー生成: 1分10回）
+
+2. **入力値検証**
+   - Zodによる厳格な入力値検証
+   - UUID形式の検証
+   - 文字列長の制限
+
+3. **セキュリティヘッダー**
+   - Strict-Transport-Security (HSTS)
+   - X-Frame-Options: DENY
+   - X-Content-Type-Options: nosniff
+   - X-XSS-Protection
+   - Referrer-Policy
+   - Permissions-Policy
+
+4. **エラーハンドリング**
+   - 機密情報を含まないエラーレスポンス
+   - 本番環境でのデバッグ情報の非表示
+
+5. **Webhook検証**
+   - Stripe Webhookの署名検証
+   - イベントの重複処理防止
+   - メタデータの検証
+
+6. **CORS設定**
+   - 許可されたオリジンのみアクセス可能
+   - 適切なCORSヘッダーの設定
+
+### セキュリティのベストプラクティス
+
+1. **環境変数の管理**
+   - `.env.local`ファイルは絶対にGitにコミットしない
+   - 本番環境では環境変数を安全に管理
+   - サービスロールキーはサーバーサイドでのみ使用
+
+2. **リポジトリの設定**
+   - GitHubリポジトリをプライベートに設定することを推奨
+   - 機密情報を含むファイルは`.gitignore`に追加
+
+3. **定期的な更新**
+   - 依存関係の定期的なアップデート
+   - `npm audit`でセキュリティ脆弱性をチェック
+   - セキュリティパッチの迅速な適用
+
+## デプロイ
+
+### Vercel
+
+1. VercelにGitHubリポジトリを接続
+2. 環境変数を設定
+3. デプロイ
+
+### Railway
+
+`railway.json`の設定に従ってデプロイされます。
 
 ## 開発
 
 ```bash
-# 依存関係のインストール
-npm install
-
 # 開発サーバーの起動
 npm run dev
 
 # ビルド
 npm run build
+
+# 型チェック
+npm run type-check
+
+# リント
+npm run lint
 ```
 
-## Supabaseの設定（任意）
+## ライセンス
 
-認証機能を使用する場合：
-
-1. [Supabase](https://supabase.com)でプロジェクトを作成
-2. Project SettingsからAPI URLとanon keyを取得
-3. 環境変数に設定
-4. Authentication > Providersで"Email"を有効化
-5. Email TemplatesでMagic Linkテンプレートをカスタマイズ（任意）
-
-## デプロイ
-
-このプロジェクトはRailwayへの自動デプロイが設定されています。mainブランチにプッシュすると自動的にデプロイされます。
+このプロジェクトはプライベートライセンスです。無断での使用・配布は禁止されています。

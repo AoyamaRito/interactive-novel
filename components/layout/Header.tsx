@@ -1,137 +1,147 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
-import { BookOpen, LogOut, Crown, TrendingUp, Users, Sparkles, CreditCard, PenTool, Heart, ShoppingBag } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
-import { ProfileSwitcher } from '@/components/ProfileSwitcher';
+import { PenSquare, User, Home, Menu, X, LogOut, CreditCard } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase/client';
 
-interface HeaderProps {
-  onHomeClick?: () => void;
-}
-
-export default function Header({ onHomeClick }: HeaderProps) {
-  const { user, loading } = useAuth();
+export default function Header() {
+  const { user, signOut } = useAuth();
   const router = useRouter();
-  const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const handleLogout = async () => {
-    try {
-      const { createClient } = await import('@/lib/supabase/client');
-      const supabase = createClient();
-      if (supabase) {
-        await supabase.auth.signOut();
-      }
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserId(user?.id || null);
+    };
+    
+    checkAuth();
+  }, [user]);
+
+  const handleSignOut = async () => {
+    await signOut();
     router.push('/');
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <header className="glass-effect shadow-2xl border-b border-cyan-500/20 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <BookOpen className="h-8 w-8 text-cyan-400 drop-shadow-[0_0_10px_rgba(0,212,255,0.5)]" />
-            <span className="text-xl font-bold text-gradient">琴葉</span>
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-black/30 border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* ロゴ */}
+          <Link 
+            href="/" 
+            className="text-2xl font-bold text-white hover:opacity-80 transition-opacity"
+          >
+            AI Platform
           </Link>
 
-          <nav className="flex items-center space-x-4">
+          {/* デスクトップナビゲーション */}
+          <nav className="hidden md:flex items-center space-x-6">
             <Link 
               href="/" 
-              onClick={onHomeClick}
-              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
-              title="タイムライン"
+              className="text-gray-300 hover:text-white transition-colors flex items-center space-x-2"
             >
-              <TrendingUp className="h-5 w-5" />
+              <Home className="h-4 w-4" />
+              <span>ホーム</span>
             </Link>
             <Link 
-              href="/concept" 
-              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
-              title="琴葉とは"
+              href="/story-creator" 
+              className="text-gray-300 hover:text-white transition-colors flex items-center space-x-2"
             >
-              <Sparkles className="h-5 w-5" />
+              <PenSquare className="h-4 w-4" />
+              <span>作成</span>
             </Link>
-            <Link 
-              href="/authors" 
-              className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
-              title="AI作家"
-            >
-              <Users className="h-5 w-5" />
-            </Link>
-            {!loading && (
+            {userId ? (
               <>
-                {user ? (
-                  <>
-                    <Link
-                      href="/subscribe"
-                      className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-3 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
-                    >
-                      <Crown className="h-4 w-4" />
-                      <span className="hidden md:inline">プレミアム</span>
-                    </Link>
-                    <Link
-                      href="/billing"
-                      className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
-                      title="請求"
-                    >
-                      <CreditCard className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href="/creative"
-                      className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
-                      title="クリエイティブ"
-                    >
-                      <PenTool className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href="/tales-of-legends"
-                      className="text-gray-300 hover:text-pink-400 transition-colors duration-200"
-                      title="Tales of Legends"
-                    >
-                      <Heart className="h-5 w-5" />
-                    </Link>
-                    <Link
-                      href="/character-shop"
-                      className="text-gray-300 hover:text-yellow-400 transition-colors duration-200"
-                      title="キャラクターショップ"
-                    >
-                      <ShoppingBag className="h-5 w-5" />
-                    </Link>
-                    <div className="flex items-center space-x-3">
-                      {pathname !== '/profiles' && <ProfileSwitcher />}
-                      <button
-                        onClick={handleLogout}
-                        className="text-gray-300 hover:text-cyan-400 transition-colors"
-                        title="ログアウト"
-                      >
-                        <LogOut className="h-5 w-5" />
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      href="/login"
-                      className="flex items-center space-x-1 text-gray-300 hover:text-cyan-400 transition-colors"
-                    >
-                      <LogOut className="h-5 w-5 rotate-180" />
-                      <span>ログイン</span>
-                    </Link>
-                    <Link
-                      href="/concept"
-                      className="flex items-center space-x-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium"
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      <span>始める</span>
-                    </Link>
-                  </>
-                )}
+                <Link 
+                  href="/billing" 
+                  className="text-gray-300 hover:text-white transition-colors flex items-center space-x-2"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  <span>料金</span>
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="text-gray-300 hover:text-white transition-colors flex items-center space-x-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>ログアウト</span>
+                </button>
               </>
+            ) : (
+              <Link 
+                href="/login" 
+                className="text-gray-300 hover:text-white transition-colors flex items-center space-x-2"
+              >
+                <User className="h-4 w-4" />
+                <span>ログイン</span>
+              </Link>
             )}
           </nav>
+
+          {/* モバイルメニューボタン */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-gray-300 hover:text-white transition-colors"
+          >
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
+
+        {/* モバイルメニュー */}
+        {isMobileMenuOpen && (
+          <nav className="md:hidden pb-4 space-y-4">
+            <Link 
+              href="/" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block text-gray-300 hover:text-white transition-colors flex items-center space-x-2 px-2 py-1"
+            >
+              <Home className="h-4 w-4" />
+              <span>ホーム</span>
+            </Link>
+            <Link 
+              href="/story-creator" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block text-gray-300 hover:text-white transition-colors flex items-center space-x-2 px-2 py-1"
+            >
+              <PenSquare className="h-4 w-4" />
+              <span>作成</span>
+            </Link>
+            {userId ? (
+              <>
+                <Link 
+                  href="/billing" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-gray-300 hover:text-white transition-colors flex items-center space-x-2 px-2 py-1"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  <span>料金</span>
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="w-full text-left text-gray-300 hover:text-white transition-colors flex items-center space-x-2 px-2 py-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>ログアウト</span>
+                </button>
+              </>
+            ) : (
+              <Link 
+                href="/login" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-gray-300 hover:text-white transition-colors flex items-center space-x-2 px-2 py-1"
+              >
+                <User className="h-4 w-4" />
+                <span>ログイン</span>
+              </Link>
+            )}
+          </nav>
+        )}
       </div>
     </header>
   );

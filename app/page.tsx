@@ -1,93 +1,70 @@
-'use client';
-
-import { useState } from 'react';
-import Header from '@/components/layout/Header';
-import TimelinePost from '@/components/timeline/TimelinePost';
-import { dummyTimelinePosts } from '@/lib/dummy-timeline';
-import { getNovelChapters } from '@/lib/novel-chapters';
-import { TrendingUp, ArrowUp } from 'lucide-react';
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Sparkles, Bot, Image as ImageIcon, CreditCard, Shield, Zap, ArrowRight } from 'lucide-react'
 
 export default function Home() {
-  const [selectedNovelId, setSelectedNovelId] = useState<string | null>(null);
-  
-  const handlePostClick = (postId: string) => {
-    const chapters = getNovelChapters(postId);
-    if (chapters && chapters.length > 0) {
-      setSelectedNovelId(postId);
-    }
-  };
-
-
-  // 選択された小説の章を取得
-  const selectedChapters = selectedNovelId ? getNovelChapters(selectedNovelId) : null;
-  const selectedPost = selectedNovelId ? dummyTimelinePosts.find(p => p.id === selectedNovelId) : null;
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <div className="min-h-screen relative">
-      <Header onHomeClick={() => setSelectedNovelId(null)} />
-      
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="space-y-8">
-          {/* タイトルとナビゲーション */}
-          <div>
-            {!selectedChapters && (
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center space-x-2 justify-center md:justify-start">
-                <TrendingUp className="h-6 w-6 text-cyan-400 drop-shadow-[0_0_10px_rgba(0,212,255,0.5)]" />
-                <span>タイムライン</span>
-              </h2>
-            )}
-            
-            {selectedChapters && selectedPost ? (
-              <div className="max-w-3xl mx-auto">
-                <div className="space-y-4">
-                  {/* 小説の概要情報 */}
-                  <TimelinePost 
-                    post={selectedPost}
-                    isNovelInfo={true}
-                  />
-                  
-                  {/* 章を表示 */}
-                  {selectedChapters.map((chapter, index) => (
-                    <div key={chapter.id} id={`chapter-${index}`}>
-                      <TimelinePost 
-                        post={chapter}
-                        isChapter={true}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              // 通常のタイムライン - 3カラムレイアウト（マソンリー風）
-              <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                {dummyTimelinePosts.map((post) => (
-                  <div key={post.id} className="break-inside-avoid">
-                    <TimelinePost 
-                      post={post}
-                      onClick={() => handlePostClick(post.id)}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          
-          {/* 最上部へ戻るボタン */}
-          <div className="mt-12 text-center">
-            <button
-              onClick={scrollToTop}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-white/40 text-white rounded-full hover:bg-white/10 hover:border-white/60 transition-all duration-300 hover:-translate-y-1"
-            >
-              <ArrowUp className="h-5 w-5" />
-              <span>最上部へ戻る</span>
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
+      <div className="container mx-auto px-4 py-16">
+        {/* ヒーローセクション */}
+        <div className="text-center max-w-4xl mx-auto mb-20">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+            AI創作プラットフォーム
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-8">
+            AIとの対話で、画像やストーリーを生成
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/story-creator">
+              <Button className="text-lg px-8 py-4">
+                <Sparkles className="mr-2" />
+                始める
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button variant="outline" className="text-lg px-8 py-4">
+                ログイン
+              </Button>
+            </Link>
           </div>
         </div>
-      </main>
+
+        {/* 機能カード */}
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
+            <Bot className="w-8 h-8 text-blue-400 mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">AI対話</h3>
+            <p className="text-gray-400 mb-4">
+              OpenAI APIを使用した高度な対話機能
+            </p>
+            <Link href="/story-creator" className="text-blue-400 hover:text-blue-300">
+              試す →
+            </Link>
+          </div>
+
+          <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
+            <ImageIcon className="w-8 h-8 text-purple-400 mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">画像生成</h3>
+            <p className="text-gray-400 mb-4">
+              Photon-1による高品質な画像生成
+            </p>
+            <Link href="/worldbuilding" className="text-purple-400 hover:text-purple-300">
+              見る →
+            </Link>
+          </div>
+
+          <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
+            <CreditCard className="w-8 h-8 text-green-400 mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">シンプルな料金</h3>
+            <p className="text-gray-400 mb-4">
+              月額制ですべての機能が利用可能
+            </p>
+            <Link href="/subscribe" className="text-green-400 hover:text-green-300">
+              料金を見る →
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }

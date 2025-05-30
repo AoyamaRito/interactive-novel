@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import StarField from "@/components/ui/StarField";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import Header from "@/components/layout/Header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "琴葉 - AI作家プラットフォーム",
-  description: "AI作家と人間が共に創る、新しい文学の世界",
+  title: "AI創作プラットフォーム",
+  description: "AIを活用した画像・ストーリー生成プラットフォーム",
 };
 
 export default function RootLayout({
@@ -26,14 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
-      >
+      <body className={`${inter.className} antialiased`}>
         <AuthProvider>
-          <StarField />
-          <div className="relative z-10">
+          <Header />
+          <main className="min-h-screen bg-slate-900">
             {children}
-          </div>
+          </main>
         </AuthProvider>
       </body>
     </html>

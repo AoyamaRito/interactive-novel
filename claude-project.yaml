@@ -1,0 +1,41 @@
+project_name: interactive_novel
+description: Claude is allowed to build and improve this Next.js web application.
+permissions:
+  filesystem:
+    allow:
+      - app/**
+      - pages/**
+      - components/**
+      - public/**
+      - styles/**
+      - lib/**
+      - next.config.js
+      - tsconfig.json
+      - package.json
+      - .env.local
+    deny:
+      - node_modules/**
+      - .next/**
+      - .git/**
+  operations:
+    allow:
+      - modify_code
+      - create_files
+      - delete_files
+      - refactor
+      - install_dependencies
+      - configure_env
+      - write_documentation
+goals:
+  - Build a modern, responsive, SEO-friendly web app with Next.js
+  - Support SSR and API Routes as needed
+  - Use TypeScript for all code
+  - Follow clean architecture and reusable components
+  - Create test cases if relevant
+context:
+  - Next.js 14
+  - TypeScript
+  - Tailwind CSS (if used)
+  - ESLint + Prettier
+  - API Routes under `app/api/` or `pages/api/`
+  - `.env.local` for secrets
