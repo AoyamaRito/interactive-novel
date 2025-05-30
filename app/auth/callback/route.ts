@@ -6,10 +6,18 @@ const ALLOWED_ORIGINS = [
   process.env.NEXT_PUBLIC_APP_URL,
   'https://interactive-novel-production.up.railway.app',
   'http://localhost:3000',
-  'http://localhost:3001'
+  'http://localhost:3001',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:3001'
 ].filter(Boolean);
 
 function isAllowedOrigin(origin: string): boolean {
+  // 開発環境では柔軟にlocalhostを許可
+  if (process.env.NODE_ENV === 'development' && 
+      (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+    return true;
+  }
+  
   return ALLOWED_ORIGINS.some(allowed => 
     allowed && origin.startsWith(allowed)
   );

@@ -4,8 +4,11 @@ import type { NextRequest } from 'next/server';
 // 許可されたオリジン
 const ALLOWED_ORIGINS = [
   process.env.NEXT_PUBLIC_APP_URL || '',
+  'https://interactive-novel-production.up.railway.app',
   'http://localhost:3000',
-  'http://localhost:3001'
+  'http://localhost:3001',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:3001'
 ].filter(Boolean);
 
 // CORS対応が必要なAPIパス
@@ -24,7 +27,12 @@ export function middleware(request: NextRequest) {
     if (request.method === 'OPTIONS') {
       const response = new NextResponse(null, { status: 200 });
       
-      if (ALLOWED_ORIGINS.includes(origin)) {
+      // 開発環境では柔軟にlocalhostを許可
+      const isAllowed = ALLOWED_ORIGINS.includes(origin) || 
+        (process.env.NODE_ENV === 'development' && 
+         (origin.includes('localhost') || origin.includes('127.0.0.1')));
+      
+      if (isAllowed) {
         response.headers.set('Access-Control-Allow-Origin', origin);
         response.headers.set('Access-Control-Allow-Credentials', 'true');
       }
@@ -39,7 +47,12 @@ export function middleware(request: NextRequest) {
     // 通常のリクエストの処理
     const response = NextResponse.next();
     
-    if (ALLOWED_ORIGINS.includes(origin)) {
+    // 開発環境では柔軟にlocalhostを許可
+    const isAllowed = ALLOWED_ORIGINS.includes(origin) || 
+      (process.env.NODE_ENV === 'development' && 
+       (origin.includes('localhost') || origin.includes('127.0.0.1')));
+    
+    if (isAllowed) {
       response.headers.set('Access-Control-Allow-Origin', origin);
       response.headers.set('Access-Control-Allow-Credentials', 'true');
     }
