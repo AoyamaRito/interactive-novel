@@ -2,9 +2,19 @@
 export function getRequiredEnv(key: string): string {
   const value = process.env[key];
   if (!value || value.trim() === '') {
+    // ビルド時はダミー値を返す（実行時に正しい値が必要）
+    if (process.env.NODE_ENV === 'production' && !process.env.RAILWAY_ENVIRONMENT) {
+      console.warn(`Missing environment variable: ${key}`);
+      return 'dummy-value-for-build';
+    }
     throw new Error(`Missing required environment variable: ${key}`);
   }
   return value;
+}
+
+// オプショナルな環境変数の取得
+export function getOptionalEnv(key: string, defaultValue: string = ''): string {
+  return process.env[key] || defaultValue;
 }
 
 // 起動時に必須環境変数を検証

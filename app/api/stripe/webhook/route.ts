@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe-server';
 import { createClient } from '@/lib/supabase/server';
-import { getRequiredEnv } from '@/lib/env-validation';
 
 // Webhookの処理を記録（重複処理を防ぐ）
 const processedEvents = new Set<string>();
@@ -20,7 +19,15 @@ export async function POST(request: NextRequest) {
 
   try {
     // 環境変数を安全に取得
-    const webhookSecret = getRequiredEnv('STRIPE_WEBHOOK_SECRET');
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    
+    if (!webhookSecret) {
+      console.error('STRIPE_WEBHOOK_SECRET is not configured');
+      return NextResponse.json(
+        { error: 'Webhook configuration error' },
+        { status: 500 }
+      );
+    }
     
     // 署名を検証してイベントを構築
     const event = stripe.webhooks.constructEvent(
